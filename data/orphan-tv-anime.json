@@ -1,0 +1,1003 @@
+{
+  "generatedAt": "2026-04-27T16:48:35.802Z",
+  "upstream": "https://hapi.hentaicdn.org/api",
+  "siteId": "5",
+  "typeId": 16,
+  "seed": null,
+  "scannedSourceTitles": 2,
+  "orphanCount": 2,
+  "items": [
+    {
+      "id": 24075,
+      "slug_url": "24075--witch-watch-anime",
+      "slug": "witch-watch-anime",
+      "name": "Witch Watch",
+      "rus_name": "Ведьмнадзор",
+      "eng_name": "Witch Watch",
+      "type": {
+        "id": 16,
+        "label": "TV Сериал"
+      },
+      "status": {
+        "id": 2,
+        "label": "Завершён"
+      },
+      "ageRestriction": {
+        "id": 2,
+        "label": "PG-13"
+      },
+      "cover": {
+        "filename": "c616f327-f202-4707-85a1-dc39599c9918",
+        "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918_thumb.jpg",
+        "default": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918.jpg",
+        "md": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918.jpg"
+      },
+      "site": 5,
+      "restored": true,
+      "restore_reason": "anime_route_404_but_relations_and_episodes_exist",
+      "episodes_count": 25,
+      "seasons": [
+        "1"
+      ],
+      "first_episode_id": 129393,
+      "last_episode_id": 134438,
+      "episodes": [
+        {
+          "id": 129393,
+          "model": "episodes",
+          "name": "",
+          "number": "1",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 1,
+          "type": "episodes"
+        },
+        {
+          "id": 129394,
+          "model": "episodes",
+          "name": "",
+          "number": "2",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 2,
+          "type": "episodes"
+        },
+        {
+          "id": 129395,
+          "model": "episodes",
+          "name": "",
+          "number": "3",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 3,
+          "type": "episodes"
+        },
+        {
+          "id": 129396,
+          "model": "episodes",
+          "name": "",
+          "number": "4",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 4,
+          "type": "episodes"
+        },
+        {
+          "id": 129397,
+          "model": "episodes",
+          "name": "",
+          "number": "5",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 5,
+          "type": "episodes"
+        },
+        {
+          "id": 129398,
+          "model": "episodes",
+          "name": "",
+          "number": "6",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-14T02:38:05.000000Z",
+          "item_number": 6,
+          "type": "episodes"
+        },
+        {
+          "id": 129635,
+          "model": "episodes",
+          "name": "",
+          "number": "7",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-18T08:40:01.000000Z",
+          "item_number": 7,
+          "type": "episodes"
+        },
+        {
+          "id": 130036,
+          "model": "episodes",
+          "name": "",
+          "number": "8",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-05-25T08:50:01.000000Z",
+          "item_number": 8,
+          "type": "episodes"
+        },
+        {
+          "id": 130149,
+          "model": "episodes",
+          "name": "",
+          "number": "9",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-06-01T08:40:01.000000Z",
+          "item_number": 9,
+          "type": "episodes"
+        },
+        {
+          "id": 130262,
+          "model": "episodes",
+          "name": "",
+          "number": "10",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-06-08T08:40:01.000000Z",
+          "item_number": 10,
+          "type": "episodes"
+        },
+        {
+          "id": 131491,
+          "model": "episodes",
+          "name": "",
+          "number": "11",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-06-15T08:50:01.000000Z",
+          "item_number": 11,
+          "type": "episodes"
+        },
+        {
+          "id": 131625,
+          "model": "episodes",
+          "name": "",
+          "number": "12",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-06-22T08:50:02.000000Z",
+          "item_number": 12,
+          "type": "episodes"
+        },
+        {
+          "id": 132177,
+          "model": "episodes",
+          "name": "",
+          "number": "13",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-06-29T08:50:02.000000Z",
+          "item_number": 13,
+          "type": "episodes"
+        },
+        {
+          "id": 132374,
+          "model": "episodes",
+          "name": "",
+          "number": "14",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-07-06T08:50:01.000000Z",
+          "item_number": 14,
+          "type": "episodes"
+        },
+        {
+          "id": 132568,
+          "model": "episodes",
+          "name": "",
+          "number": "15",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-07-13T08:40:01.000000Z",
+          "item_number": 15,
+          "type": "episodes"
+        },
+        {
+          "id": 132724,
+          "model": "episodes",
+          "name": "",
+          "number": "16",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-07-20T08:57:10.000000Z",
+          "item_number": 16,
+          "type": "episodes"
+        },
+        {
+          "id": 132893,
+          "model": "episodes",
+          "name": "",
+          "number": "17",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-07-27T08:50:01.000000Z",
+          "item_number": 17,
+          "type": "episodes"
+        },
+        {
+          "id": 133043,
+          "model": "episodes",
+          "name": "",
+          "number": "18",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-08-03T08:50:01.000000Z",
+          "item_number": 18,
+          "type": "episodes"
+        },
+        {
+          "id": 133173,
+          "model": "episodes",
+          "name": "",
+          "number": "19",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-08-10T09:03:34.000000Z",
+          "item_number": 19,
+          "type": "episodes"
+        },
+        {
+          "id": 133301,
+          "model": "episodes",
+          "name": "",
+          "number": "20",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-08-17T09:13:38.000000Z",
+          "item_number": 20,
+          "type": "episodes"
+        },
+        {
+          "id": 133419,
+          "model": "episodes",
+          "name": "",
+          "number": "21",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-08-24T09:12:46.000000Z",
+          "item_number": 21,
+          "type": "episodes"
+        },
+        {
+          "id": 133520,
+          "model": "episodes",
+          "name": "",
+          "number": "22",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-08-31T11:00:02.000000Z",
+          "item_number": 22,
+          "type": "episodes"
+        },
+        {
+          "id": 134079,
+          "model": "episodes",
+          "name": "",
+          "number": "23",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-09-15T03:15:08.000000Z",
+          "item_number": 23,
+          "type": "episodes"
+        },
+        {
+          "id": 134185,
+          "model": "episodes",
+          "name": "",
+          "number": "24",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-09-21T09:00:01.000000Z",
+          "item_number": 24,
+          "type": "episodes"
+        },
+        {
+          "id": 134438,
+          "model": "episodes",
+          "name": "",
+          "number": "25",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24075,
+          "created_at": "2025-10-05T14:30:01.000000Z",
+          "item_number": 25,
+          "type": "episodes"
+        }
+      ],
+      "source_manga": {
+        "id": 59860,
+        "name": "Witch Watch",
+        "rus_name": "Ведьмнадзор",
+        "eng_name": "Witch Watch",
+        "model": "manga",
+        "slug": "witch-witch",
+        "slug_url": "59860--witch-witch",
+        "cover": {
+          "filename": "48fc2c76-26c8-436c-89d1-9253379f2bcb",
+          "thumbnail": "https://cover.hentaicdn.org/uploads/cover/witch-witch/cover/48fc2c76-26c8-436c-89d1-9253379f2bcb_thumb.jpg",
+          "default": "https://cover.hentaicdn.org/uploads/cover/witch-witch/cover/48fc2c76-26c8-436c-89d1-9253379f2bcb.jpg",
+          "md": "https://cover.hentaicdn.org/uploads/cover/witch-witch/cover/48fc2c76-26c8-436c-89d1-9253379f2bcb.jpg"
+        },
+        "ageRestriction": {
+          "id": 3,
+          "label": "16+"
+        },
+        "site": 1,
+        "type": {
+          "id": 1,
+          "label": "Манга"
+        },
+        "content_marking": [],
+        "status": {
+          "id": 1,
+          "label": "Онгоинг"
+        },
+        "releaseDateString": ""
+      },
+      "related_anime": [
+        {
+          "relation_type": "Продолжение",
+          "media": {
+            "id": 26540,
+            "name": "Witch Watch 2nd Season",
+            "rus_name": "Ведьмнадзор 2",
+            "eng_name": "Witch Watch Season 2",
+            "model": "anime",
+            "slug": "witch-watch-2nd-season-anime",
+            "slug_url": "26540--witch-watch-2nd-season-anime",
+            "cover": {
+              "filename": "b69c3694-86b3-4699-ae4f-d00387c2ffb1",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/26540/cover/b69c3694-86b3-4699-ae4f-d00387c2ffb1_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/26540/cover/b69c3694-86b3-4699-ae4f-d00387c2ffb1.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/26540/cover/b69c3694-86b3-4699-ae4f-d00387c2ffb1.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 3,
+              "label": "Анонс"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        }
+      ],
+      "discovered_from": [
+        {
+          "source_slug_url": "26540--witch-watch-2nd-season-anime",
+          "relation_type": "Предыстория"
+        }
+      ],
+      "card": {
+        "data": {
+          "id": 24075,
+          "name": "Witch Watch",
+          "rus_name": "Ведьмнадзор",
+          "eng_name": "Witch Watch",
+          "model": "anime",
+          "slug": "witch-watch-anime",
+          "slug_url": "24075--witch-watch-anime",
+          "cover": {
+            "filename": "c616f327-f202-4707-85a1-dc39599c9918",
+            "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918_thumb.jpg",
+            "default": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918.jpg",
+            "md": "https://cover.hentaicdn.org/uploads/anime/24075/cover/c616f327-f202-4707-85a1-dc39599c9918.jpg"
+          },
+          "ageRestriction": {
+            "id": 2,
+            "label": "PG-13"
+          },
+          "site": 5,
+          "type": {
+            "id": 16,
+            "label": "TV Сериал"
+          },
+          "content_marking": [],
+          "status": {
+            "id": 2,
+            "label": "Завершён"
+          },
+          "releaseDateString": "",
+          "anilist_id": null,
+          "shiki_rate": null
+        },
+        "meta": {
+          "restored": true,
+          "orphaned": true,
+          "episodes_count": 25,
+          "seasons": [
+            "1"
+          ],
+          "discovered_from": [
+            "26540--witch-watch-2nd-season-anime"
+          ]
+        }
+      }
+    },
+    {
+      "id": 24326,
+      "slug_url": "24326--oshi-no-ko-3rd-season-anime",
+      "slug": "oshi-no-ko-3rd-season-anime",
+      "name": "[Oshi no Ko] 3rd Season",
+      "rus_name": "Ребёнок идола 3",
+      "eng_name": "【OSHI NO KO】Season 3",
+      "type": {
+        "id": 16,
+        "label": "TV Сериал"
+      },
+      "status": {
+        "id": 2,
+        "label": "Завершён"
+      },
+      "ageRestriction": {
+        "id": 2,
+        "label": "PG-13"
+      },
+      "cover": {
+        "filename": "47b2456f-8170-4322-97d3-f5fcf3ee9ee2",
+        "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2_thumb.jpg",
+        "default": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg",
+        "md": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg"
+      },
+      "site": 5,
+      "restored": true,
+      "restore_reason": "anime_route_404_but_relations_and_episodes_exist",
+      "episodes_count": 11,
+      "seasons": [
+        "3"
+      ],
+      "first_episode_id": 136409,
+      "last_episode_id": 137937,
+      "episodes": [
+        {
+          "id": 136409,
+          "model": "episodes",
+          "name": "",
+          "number": "1",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-01-15T05:59:53.000000Z",
+          "item_number": 1,
+          "type": "episodes"
+        },
+        {
+          "id": 136550,
+          "model": "episodes",
+          "name": "",
+          "number": "2",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-01-21T15:41:32.000000Z",
+          "item_number": 2,
+          "type": "episodes"
+        },
+        {
+          "id": 136718,
+          "model": "episodes",
+          "name": "",
+          "number": "3",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-01-28T15:20:01.000000Z",
+          "item_number": 3,
+          "type": "episodes"
+        },
+        {
+          "id": 136838,
+          "model": "episodes",
+          "name": "",
+          "number": "4",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-02-04T15:10:07.000000Z",
+          "item_number": 4,
+          "type": "episodes"
+        },
+        {
+          "id": 136974,
+          "model": "episodes",
+          "name": "",
+          "number": "5",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-02-11T15:10:34.000000Z",
+          "item_number": 5,
+          "type": "episodes"
+        },
+        {
+          "id": 137132,
+          "model": "episodes",
+          "name": "",
+          "number": "6",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-02-18T16:27:23.000000Z",
+          "item_number": 6,
+          "type": "episodes"
+        },
+        {
+          "id": 137257,
+          "model": "episodes",
+          "name": "",
+          "number": "7",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-02-25T15:10:06.000000Z",
+          "item_number": 7,
+          "type": "episodes"
+        },
+        {
+          "id": 137388,
+          "model": "episodes",
+          "name": "",
+          "number": "8",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-03-04T18:09:53.000000Z",
+          "item_number": 8,
+          "type": "episodes"
+        },
+        {
+          "id": 137625,
+          "model": "episodes",
+          "name": "",
+          "number": "9",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-03-11T15:51:30.000000Z",
+          "item_number": 9,
+          "type": "episodes"
+        },
+        {
+          "id": 137808,
+          "model": "episodes",
+          "name": "",
+          "number": "10",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-03-18T15:20:01.000000Z",
+          "item_number": 10,
+          "type": "episodes"
+        },
+        {
+          "id": 137937,
+          "model": "episodes",
+          "name": "",
+          "number": "11",
+          "number_secondary": "3",
+          "season": "3",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 24326,
+          "created_at": "2026-03-25T15:18:02.000000Z",
+          "item_number": 11,
+          "type": "episodes"
+        }
+      ],
+      "source_manga": {
+        "id": 29759,
+        "name": "Oshi no Ko",
+        "rus_name": "Звёздное Дитя",
+        "eng_name": "Idol of Child",
+        "model": "manga",
+        "slug": "oshi-no-ko",
+        "slug_url": "29759--oshi-no-ko",
+        "cover": {
+          "filename": "c7e2dd66-a2e0-4924-93fc-2685e2d5d311",
+          "thumbnail": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311_thumb.jpg",
+          "default": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg",
+          "md": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg"
+        },
+        "ageRestriction": {
+          "id": 3,
+          "label": "16+"
+        },
+        "site": 1,
+        "type": {
+          "id": 1,
+          "label": "Манга"
+        },
+        "content_marking": [],
+        "status": {
+          "id": 2,
+          "label": "Завершён"
+        },
+        "releaseDateString": ""
+      },
+      "related_anime": [
+        {
+          "relation_type": "Предыстория",
+          "media": {
+            "id": 22750,
+            "name": "[Oshi no Ko] 2nd Season",
+            "rus_name": "Ребёнок идола 2",
+            "eng_name": "Oshi no Ko Season 2",
+            "model": "anime",
+            "slug": "oshi-no-ko-2nd-season-anime",
+            "slug_url": "22750--oshi-no-ko-2nd-season-anime",
+            "cover": {
+              "filename": "87a9fb9a-f510-4e61-963c-7e5b6f5f121c",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Продолжение",
+          "media": {
+            "id": 26956,
+            "name": "[Oshi no Ko] Final Season",
+            "rus_name": "Ребёнок идола: Финал",
+            "eng_name": null,
+            "model": "anime",
+            "slug": "oshi-no-ko-final-season-anime",
+            "slug_url": "26956--oshi-no-ko-final-season-anime",
+            "cover": {
+              "filename": "d352792b-d703-4e9a-bfa2-381127dd78eb",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/26956/cover/d352792b-d703-4e9a-bfa2-381127dd78eb_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/26956/cover/d352792b-d703-4e9a-bfa2-381127dd78eb.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/26956/cover/d352792b-d703-4e9a-bfa2-381127dd78eb.jpg"
+            },
+            "ageRestriction": {
+              "id": 1,
+              "label": "PG"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 3,
+              "label": "Анонс"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Другое",
+          "media": {
+            "id": 26977,
+            "name": "Serenade (2026)",
+            "rus_name": "Серенада",
+            "eng_name": null,
+            "model": "anime",
+            "slug": "serenade-2026-anime",
+            "slug_url": "26977--serenade-2026-anime",
+            "cover": {
+              "filename": "fab12dca-bb1b-4ff0-b516-7c4d8aa028f7",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/26977/cover/fab12dca-bb1b-4ff0-b516-7c4d8aa028f7_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/26977/cover/fab12dca-bb1b-4ff0-b516-7c4d8aa028f7.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/26977/cover/fab12dca-bb1b-4ff0-b516-7c4d8aa028f7.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 22,
+              "label": "Клип"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        }
+      ],
+      "discovered_from": [
+        {
+          "source_slug_url": "26956--oshi-no-ko-final-season-anime",
+          "relation_type": "Предыстория"
+        }
+      ],
+      "card": {
+        "data": {
+          "id": 24326,
+          "name": "[Oshi no Ko] 3rd Season",
+          "rus_name": "Ребёнок идола 3",
+          "eng_name": "【OSHI NO KO】Season 3",
+          "model": "anime",
+          "slug": "oshi-no-ko-3rd-season-anime",
+          "slug_url": "24326--oshi-no-ko-3rd-season-anime",
+          "cover": {
+            "filename": "47b2456f-8170-4322-97d3-f5fcf3ee9ee2",
+            "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2_thumb.jpg",
+            "default": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg",
+            "md": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg"
+          },
+          "ageRestriction": {
+            "id": 2,
+            "label": "PG-13"
+          },
+          "site": 5,
+          "type": {
+            "id": 16,
+            "label": "TV Сериал"
+          },
+          "content_marking": [],
+          "status": {
+            "id": 2,
+            "label": "Завершён"
+          },
+          "releaseDateString": "",
+          "anilist_id": null,
+          "shiki_rate": null
+        },
+        "meta": {
+          "restored": true,
+          "orphaned": true,
+          "episodes_count": 11,
+          "seasons": [
+            "3"
+          ],
+          "discovered_from": [
+            "26956--oshi-no-ko-final-season-anime"
+          ]
+        }
+      }
+    }
+  ]
+}
