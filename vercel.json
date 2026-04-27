@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "express",
+  "regions": ["arn1"],
+  "functions": {
+    "src/server.js": {
+      "includeFiles": "data/**/*.json",
+      "maxDuration": 30
+    }
+  }
+}

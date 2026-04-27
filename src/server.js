@@ -44,7 +44,11 @@ const upstream = axios.create({
   timeout: REQUEST_TIMEOUT_MS,
   headers: {
     'Site-Id': SITE_ID,
-    'User-Agent': 'animelib-backend/1.0'
+    Accept: 'application/json, text/plain, */*',
+    'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+    Origin: 'https://animelib.org',
+    Referer: 'https://animelib.org/',
+    'User-Agent': BROWSER_USER_AGENT
   }
 });
 
