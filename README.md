@@ -34,6 +34,8 @@ npm start
 - фиксирует framework как `express`
 - принудительно включает `data/**/*.json` в bundle функции
 - задаёт регион исполнения `arn1`
+- поднимает лимит функции до `300s`
+- запускает cron rebuild каждые `6` часов через `/internal/orphans/rebuild`
 
 Минимальный сценарий:
 
@@ -60,6 +62,18 @@ vercel dev
 - `ORPHAN_INDEX_PATH` — путь до локального JSON с восстановленными orphan-карточками
 - `ORPHAN_INDEX_REFRESH_MS` — как часто сервер перепроверяет orphan-индекс на изменение
 - `ORPHAN_SEARCH_MAX_RESULTS` — сколько orphan-результатов максимум подмешивать в поиск
+- `ORPHAN_INDEX_STORAGE` — `auto`, `blob` или `file`
+- `ORPHAN_INDEX_BLOB_PATH` — путь JSON-файла внутри Vercel Blob
+- `ORPHAN_INDEX_BLOB_ACCESS` — `private` или `public` для Blob
+- `ORPHAN_SYNC_LOCAL_COPY` — писать ли локальную копию индекса вместе с Blob
+- `ORPHAN_RUNTIME_DISCOVERY_ENABLED` — включать ли runtime-поиск неизвестного orphan по slug
+- `ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES` — сколько страниц каталога сканировать при runtime-discovery
+- `ORPHAN_REBUILD_MAX_PAGES` — сколько страниц каталога обходит один rebuild-запуск
+- `ORPHAN_REBUILD_CONCURRENCY` — concurrency для rebuild
+- `ORPHAN_REBUILD_SOURCE_SLUGS` — CSV список source-тайтлов для точечного rebuild вместо обхода каталога
+- `ORPHAN_ADMIN_TOKEN` — bearer token для manual internal endpoints
+- `CRON_SECRET` — bearer token, который Vercel Cron шлёт в internal rebuild endpoint
+- `BLOB_READ_WRITE_TOKEN` — token для чтения/записи orphan-индекса в Vercel Blob
 
 ## Восстановление потерянных карточек
 
@@ -86,6 +100,65 @@ npm run discover:orphans -- --source-slugs=26540--witch-watch-2nd-season-anime,2
 # полный проход по каталогу TV-сериалов
 npm run discover:orphans -- --max-pages=250 --out=data/orphan-tv-anime.json
 ```
+
+## Blob и runtime-save
+
+Если задан `BLOB_READ_WRITE_TOKEN`, сервер работает с orphan-индексом через Vercel Blob.
+
+Логика такая:
+
+- `ORPHAN_INDEX_STORAGE=auto` — Blob, если token есть, иначе локальный файл
+- `ORPHAN_INDEX_STORAGE=blob` — всегда Blob
+- `ORPHAN_INDEX_STORAGE=file` — всегда локальный JSON
+
+При включённом `ORPHAN_RUNTIME_DISCOVERY_ENABLED=true` сервер может:
+
+- получить `404` на `/anime/:slug`
+- просканировать ограниченное число страниц живого каталога
+- найти orphan через `relations`
+- сохранить найденную карточку в Blob
+- сразу начать отдавать её как обычную восстановленную страницу
+
+Это intentionally тяжёлая операция, поэтому по умолчанию она выключена.
+
+## Internal rebuild
+
+Есть два внутренних маршрута:
+
+```bash
+GET  /internal/orphans/status
+GET  /internal/orphans/rebuild
+POST /internal/orphans/rebuild
+```
+
+Авторизация:
+
+- `Authorization: Bearer <ORPHAN_ADMIN_TOKEN>` — manual вызовы
+- `Authorization: Bearer <CRON_SECRET>` — cron вызовы
+
+Примеры:
+
+```bash
+# статус индекса
+curl -H "Authorization: Bearer $ORPHAN_ADMIN_TOKEN" "http://localhost:4000/internal/orphans/status"
+
+# manual merge-rebuild по конкретным source-тайтлам
+curl -X POST "http://localhost:4000/internal/orphans/rebuild" \
+  -H "Authorization: Bearer $ORPHAN_ADMIN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"source_slugs\":[\"26540--witch-watch-2nd-season-anime\",\"26956--oshi-no-ko-final-season-anime\"]}"
+
+# manual rebuild с replace
+curl -X POST "http://localhost:4000/internal/orphans/rebuild?replace=true&max_pages=20" \
+  -H "Authorization: Bearer $ORPHAN_ADMIN_TOKEN"
+```
+
+Нюанс по Vercel Cron:
+
+- cron работает только на production deployment
+- один cron-запуск не должен пытаться сканировать весь каталог на Hobby
+- поэтому по умолчанию rebuild ограничен `ORPHAN_REBUILD_MAX_PAGES=5`
+- для полного rebuild лучше либо manual запускать частями, либо делать оффлайн через CLI и потом заливать индекс в Blob
 
 В JSON попадают:
 

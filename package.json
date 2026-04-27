@@ -10,6 +10,7 @@
     "discover:orphans": "node scripts/discover-orphan-tv-anime.js"
   },
   "dependencies": {
+    "@vercel/blob": "^2.3.3",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

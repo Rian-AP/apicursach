@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-04-27T16:48:35.802Z",
+  "generatedAt": "2026-04-27T18:46:14.252Z",
   "upstream": "https://hapi.hentaicdn.org/api",
   "siteId": "5",
   "typeId": 16,
   "seed": null,
-  "scannedSourceTitles": 2,
+  "scannedSourceTitles": 1,
   "orphanCount": 2,
   "items": [
     {
@@ -999,5 +999,11 @@
         }
       }
     }
-  ]
+  ],
+  "mergeMeta": {
+    "inserted": 0,
+    "replaced": 1,
+    "existingCount": 2,
+    "incomingCount": 1
+  }
 }

@@ -5,7 +5,13 @@
   "functions": {
     "src/server.js": {
       "includeFiles": "data/**/*.json",
-      "maxDuration": 30
+      "maxDuration": 300
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/internal/orphans/rebuild",
+      "schedule": "0 */6 * * *"
+    }
+  ]
 }

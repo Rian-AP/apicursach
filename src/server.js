@@ -1,11 +1,20 @@
 require('dotenv').config();
 
-const fs = require('fs/promises');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const axios = require('axios');
+const {
+  discoverOrphans,
+  discoverOrphanBySlug,
+  mergeOrphanPayloads
+} = require('./orphan-discovery');
+const {
+  loadOrphanIndexPayload,
+  saveOrphanIndexPayload,
+  normalizeStorageMode
+} = require('./orphan-index-store');
 
 const app = express();
 
@@ -20,6 +29,20 @@ const ORPHAN_INDEX_PATH = path.resolve(
 );
 const ORPHAN_INDEX_REFRESH_MS = Number(process.env.ORPHAN_INDEX_REFRESH_MS || 30000);
 const ORPHAN_SEARCH_MAX_RESULTS = Number(process.env.ORPHAN_SEARCH_MAX_RESULTS || 20);
+const ORPHAN_INDEX_STORAGE = normalizeStorageMode(process.env.ORPHAN_INDEX_STORAGE || 'auto');
+const ORPHAN_INDEX_BLOB_PATH = process.env.ORPHAN_INDEX_BLOB_PATH || 'orphans/orphan-tv-anime.json';
+const ORPHAN_INDEX_BLOB_ACCESS = process.env.ORPHAN_INDEX_BLOB_ACCESS || 'private';
+const ORPHAN_SYNC_LOCAL_COPY = /^(1|true|yes)$/i.test(process.env.ORPHAN_SYNC_LOCAL_COPY || 'false');
+const ORPHAN_ADMIN_TOKEN = String(process.env.ORPHAN_ADMIN_TOKEN || '');
+const CRON_SECRET = String(process.env.CRON_SECRET || '');
+const ORPHAN_RUNTIME_DISCOVERY_ENABLED = /^(1|true|yes)$/i.test(process.env.ORPHAN_RUNTIME_DISCOVERY_ENABLED || 'false');
+const ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES = Number(process.env.ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES || 5);
+const ORPHAN_REBUILD_MAX_PAGES = Number(process.env.ORPHAN_REBUILD_MAX_PAGES || 5);
+const ORPHAN_REBUILD_CONCURRENCY = Number(process.env.ORPHAN_REBUILD_CONCURRENCY || 4);
+const ORPHAN_REBUILD_SOURCE_SLUGS = String(process.env.ORPHAN_REBUILD_SOURCE_SLUGS || '')
+  .split(',')
+  .map((item) => item.trim())
+  .filter(Boolean);
 const BROWSER_USER_AGENT = [
   'Mozilla/5.0',
   '(Windows NT 10.0; Win64; x64)',
@@ -30,13 +53,18 @@ const BROWSER_USER_AGENT = [
 ].join(' ');
 
 const playerResolveCache = new Map();
+const runtimeDiscoveryCache = new Map();
 const orphanState = {
   checkedAt: 0,
-  mtimeMs: null,
   items: [],
+  rawPayload: null,
   bySlug: new Map(),
   byRouteKey: new Map(),
-  loadPromise: null
+  loadPromise: null,
+  source: 'none',
+  versionTag: null,
+  payloadMeta: null,
+  lastLoadedAt: null
 };
 
 const upstream = axios.create({
@@ -128,19 +156,19 @@ async function refreshOrphanIndex(force = false) {
     orphanState.checkedAt = now;
 
     try {
-      const stats = await fs.stat(ORPHAN_INDEX_PATH);
-      if (!force && orphanState.mtimeMs === stats.mtimeMs) {
-        return orphanState;
-      }
-
-      const fileContents = await fs.readFile(ORPHAN_INDEX_PATH, 'utf8');
-      const payload = JSON.parse(fileContents);
+      const loaded = await loadOrphanIndexPayload({
+        mode: ORPHAN_INDEX_STORAGE,
+        filePath: ORPHAN_INDEX_PATH,
+        blobPath: ORPHAN_INDEX_BLOB_PATH,
+        blobAccess: ORPHAN_INDEX_BLOB_ACCESS
+      });
+      const payload = loaded?.payload || { items: [] };
       const items = Array.isArray(payload?.items)
         ? payload.items.map((item) => buildOrphanSearchEntry(item))
         : [];
 
-      orphanState.mtimeMs = stats.mtimeMs;
       orphanState.items = items;
+      orphanState.rawPayload = payload;
       orphanState.bySlug = new Map(items.map((item) => [item.slug_url, item]));
       orphanState.byRouteKey = new Map();
       for (const item of items) {
@@ -151,17 +179,13 @@ async function refreshOrphanIndex(force = false) {
           orphanState.byRouteKey.set(String(item.slug), item);
         }
       }
+      orphanState.source = loaded?.source || 'none';
+      orphanState.versionTag = loaded?.versionTag || null;
+      orphanState.payloadMeta = loaded?.meta || null;
+      orphanState.lastLoadedAt = new Date().toISOString();
 
       return orphanState;
     } catch (error) {
-      if (error?.code === 'ENOENT') {
-        orphanState.mtimeMs = null;
-        orphanState.items = [];
-        orphanState.bySlug = new Map();
-        orphanState.byRouteKey = new Map();
-        return orphanState;
-      }
-
       console.error('Failed to refresh orphan index:', error);
       return orphanState;
     } finally {
@@ -294,6 +318,171 @@ function getRestoredAnimeItem(state, routeKey) {
   }
 
   return state.byRouteKey.get(key) || state.bySlug.get(key) || null;
+}
+
+function parseBoolean(value, fallback = false) {
+  if (value === undefined || value === null || value === '') {
+    return fallback;
+  }
+
+  return /^(1|true|yes)$/i.test(String(value));
+}
+
+function parsePositiveNumber(value, fallback) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return fallback;
+  }
+
+  return parsed;
+}
+
+function parseSourceSlugsInput(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item || '').trim()).filter(Boolean);
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function getBearerToken(req) {
+  const authHeader = String(req.headers.authorization || '').trim();
+  if (!authHeader.toLowerCase().startsWith('bearer ')) {
+    return '';
+  }
+
+  return authHeader.slice(7).trim();
+}
+
+function isInternalRequestAuthorized(req, options = {}) {
+  const token = getBearerToken(req);
+  if (!token) {
+    return false;
+  }
+
+  if (ORPHAN_ADMIN_TOKEN && token === ORPHAN_ADMIN_TOKEN) {
+    return true;
+  }
+
+  if (options.allowCron && CRON_SECRET && token === CRON_SECRET) {
+    return true;
+  }
+
+  return false;
+}
+
+function getEmptyOrphanPayload() {
+  return {
+    generatedAt: new Date().toISOString(),
+    upstream: API_BASE_URL,
+    siteId: SITE_ID,
+    typeId: 16,
+    seed: null,
+    scannedSourceTitles: 0,
+    orphanCount: 0,
+    items: []
+  };
+}
+
+async function persistOrphanPayload(payload) {
+  const saveResult = await saveOrphanIndexPayload(payload, {
+    mode: ORPHAN_INDEX_STORAGE,
+    filePath: ORPHAN_INDEX_PATH,
+    blobPath: ORPHAN_INDEX_BLOB_PATH,
+    blobAccess: ORPHAN_INDEX_BLOB_ACCESS,
+    syncLocalCopy: ORPHAN_SYNC_LOCAL_COPY
+  });
+
+  await refreshOrphanIndex(true);
+  return saveResult;
+}
+
+async function mergeAndPersistOrphanPayload(incomingPayload) {
+  const state = await refreshOrphanIndex();
+  const basePayload = state.rawPayload || getEmptyOrphanPayload();
+  const mergedPayload = mergeOrphanPayloads(basePayload, incomingPayload);
+  const saveResult = await persistOrphanPayload(mergedPayload);
+
+  return {
+    mergedPayload,
+    saveResult
+  };
+}
+
+async function maybeDiscoverAndPersistOrphan(routeKey) {
+  if (!ORPHAN_RUNTIME_DISCOVERY_ENABLED) {
+    return null;
+  }
+
+  const normalizedRouteKey = String(routeKey || '').trim();
+  if (!normalizedRouteKey) {
+    return null;
+  }
+
+  const currentState = await refreshOrphanIndex();
+  const existing = getRestoredAnimeItem(currentState, normalizedRouteKey);
+  if (existing) {
+    return existing;
+  }
+
+  if (runtimeDiscoveryCache.has(normalizedRouteKey)) {
+    return runtimeDiscoveryCache.get(normalizedRouteKey);
+  }
+
+  const discoveryPromise = (async () => {
+    const discoveredPayload = await discoverOrphanBySlug(normalizedRouteKey, {
+      maxPages: ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES
+    });
+
+    if (!discoveredPayload || !Array.isArray(discoveredPayload.items) || discoveredPayload.items.length === 0) {
+      return null;
+    }
+
+    await mergeAndPersistOrphanPayload(discoveredPayload);
+    const refreshedState = await refreshOrphanIndex(true);
+    return getRestoredAnimeItem(refreshedState, normalizedRouteKey);
+  })().finally(() => {
+    runtimeDiscoveryCache.delete(normalizedRouteKey);
+  });
+
+  runtimeDiscoveryCache.set(normalizedRouteKey, discoveryPromise);
+  return discoveryPromise;
+}
+
+function buildRebuildArgs(input = {}) {
+  const sourceSlugs = parseSourceSlugsInput(input.source_slugs || input.sourceSlugs);
+
+  return {
+    sourceSlugs: sourceSlugs.length > 0 ? sourceSlugs : ORPHAN_REBUILD_SOURCE_SLUGS,
+    maxPages: parsePositiveNumber(input.max_pages || input.maxPages, ORPHAN_REBUILD_MAX_PAGES),
+    startPage: parsePositiveNumber(input.start_page || input.startPage, 1),
+    concurrency: parsePositiveNumber(input.concurrency, ORPHAN_REBUILD_CONCURRENCY),
+    typeId: parsePositiveNumber(input.type_id || input.typeId, 16),
+    replace: parseBoolean(input.replace, false)
+  };
+}
+
+async function runOrphanRebuild(args) {
+  const discoveredPayload = await discoverOrphans(args);
+  const persisted = args.replace
+    ? {
+      mergedPayload: discoveredPayload,
+      saveResult: await persistOrphanPayload(discoveredPayload)
+    }
+    : await mergeAndPersistOrphanPayload(discoveredPayload);
+
+  return {
+    discoveredPayload,
+    persistedPayload: persisted.mergedPayload,
+    saveResult: persisted.saveResult
+  };
 }
 
 function searchOrphanIndex(state, query) {
@@ -727,7 +916,7 @@ function openApiSpec() {
       },
       '/anime/{slug}': {
         get: {
-          summary: 'Карточка тайтла с fallback на локально восстановленные orphan-страницы',
+          summary: 'Карточка тайтла с fallback на локально восстановленные orphan-страницы и optional runtime-discovery',
           parameters: [
             { name: 'slug', in: 'path', required: true, schema: { type: 'string' } }
           ],
@@ -738,7 +927,7 @@ function openApiSpec() {
       },
       '/anime/{slug}/similar': {
         get: {
-          summary: 'Прямой proxy: похожие тайтлы',
+          summary: 'Похожие тайтлы с fallback на восстановленные orphan-связи',
           parameters: [
             { name: 'slug', in: 'path', required: true, schema: { type: 'string' } }
           ],
@@ -770,6 +959,31 @@ function openApiSpec() {
             '200': { description: 'Upstream response' }
           }
         }
+      },
+      '/internal/orphans/status': {
+        get: {
+          summary: 'Внутренний статус orphan-индекса',
+          responses: {
+            '200': { description: 'Status payload' },
+            '401': { description: 'Unauthorized' }
+          }
+        }
+      },
+      '/internal/orphans/rebuild': {
+        get: {
+          summary: 'Cron rebuild orphan-индекса',
+          responses: {
+            '200': { description: 'Rebuild result' },
+            '401': { description: 'Unauthorized' }
+          }
+        },
+        post: {
+          summary: 'Manual rebuild orphan-индекса',
+          responses: {
+            '200': { description: 'Rebuild result' },
+            '401': { description: 'Unauthorized' }
+          }
+        }
       }
     }
   };
@@ -784,15 +998,114 @@ app.get('/openapi.json', (_req, res) => {
 });
 
 app.get('/health', async (_req, res) => {
-  await refreshOrphanIndex();
+  const state = await refreshOrphanIndex();
   res.json({
     ok: true,
     service: 'animelib-backend',
     upstream: API_BASE_URL,
     siteId: SITE_ID,
     orphanIndexPath: ORPHAN_INDEX_PATH,
-    orphanCount: orphanState.items.length
+    orphanCount: state.items.length,
+    orphanStorage: ORPHAN_INDEX_STORAGE,
+    orphanSource: state.source,
+    orphanBlobPath: ORPHAN_INDEX_BLOB_PATH
   });
+});
+
+app.get('/internal/orphans/status', async (req, res) => {
+  if (!isInternalRequestAuthorized(req, { allowCron: true })) {
+    return res.status(401).json({
+      ok: false,
+      error: 'Unauthorized'
+    });
+  }
+
+  const state = await refreshOrphanIndex();
+  return res.json({
+    ok: true,
+    storage: ORPHAN_INDEX_STORAGE,
+    source: state.source,
+    versionTag: state.versionTag,
+    orphanCount: state.items.length,
+    runtimeDiscoveryEnabled: ORPHAN_RUNTIME_DISCOVERY_ENABLED,
+    runtimeDiscoveryMaxPages: ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES,
+    localPath: ORPHAN_INDEX_PATH,
+    blobPath: ORPHAN_INDEX_BLOB_PATH,
+    blobAccess: ORPHAN_INDEX_BLOB_ACCESS,
+    lastLoadedAt: state.lastLoadedAt,
+    payloadMeta: state.payloadMeta
+  });
+});
+
+app.get('/internal/orphans/rebuild', async (req, res) => {
+  if (!isInternalRequestAuthorized(req, { allowCron: true })) {
+    return res.status(401).json({
+      ok: false,
+      error: 'Unauthorized'
+    });
+  }
+
+  try {
+    const rebuildArgs = buildRebuildArgs(req.query);
+    const result = await runOrphanRebuild(rebuildArgs);
+
+    return res.json({
+      ok: true,
+      trigger: 'cron',
+      args: rebuildArgs,
+      discovered: {
+        orphanCount: result.discoveredPayload.orphanCount,
+        scannedSourceTitles: result.discoveredPayload.scannedSourceTitles
+      },
+      persisted: {
+        orphanCount: result.persistedPayload.orphanCount,
+        source: result.saveResult.source
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error: 'Orphan rebuild failed',
+      details: error?.message || String(error)
+    });
+  }
+});
+
+app.post('/internal/orphans/rebuild', async (req, res) => {
+  if (!isInternalRequestAuthorized(req, { allowCron: true })) {
+    return res.status(401).json({
+      ok: false,
+      error: 'Unauthorized'
+    });
+  }
+
+  try {
+    const rebuildArgs = buildRebuildArgs({
+      ...req.query,
+      ...(req.body || {})
+    });
+    const result = await runOrphanRebuild(rebuildArgs);
+
+    return res.json({
+      ok: true,
+      trigger: 'manual',
+      args: rebuildArgs,
+      discovered: {
+        orphanCount: result.discoveredPayload.orphanCount,
+        scannedSourceTitles: result.discoveredPayload.scannedSourceTitles
+      },
+      persisted: {
+        orphanCount: result.persistedPayload.orphanCount,
+        source: result.saveResult.source
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error: 'Orphan rebuild failed',
+      details: error?.message || String(error)
+    });
+  }
 });
 
 app.get('/latest-updates', async (req, res) => {
@@ -833,8 +1146,14 @@ app.get('/anime/:slug/similar', async (req, res) => {
       validateStatus: () => true
     });
 
-    const state = await refreshOrphanIndex();
-    const restoredItem = getRestoredAnimeItem(state, req.params.slug);
+    let state = await refreshOrphanIndex();
+    let restoredItem = getRestoredAnimeItem(state, req.params.slug);
+    if (!restoredItem && isUpstreamAnimeNotFoundResponse(upstreamResponse)) {
+      restoredItem = await maybeDiscoverAndPersistOrphan(req.params.slug);
+      state = await refreshOrphanIndex();
+      restoredItem = restoredItem || getRestoredAnimeItem(state, req.params.slug);
+    }
+
     const restoredSimilarPayload = restoredItem ? buildRestoredSimilarPayload(restoredItem) : null;
     const hasRestoredSimilar = Array.isArray(restoredSimilarPayload?.data) && restoredSimilarPayload.data.length > 0;
     const upstreamSimilarItems = Array.isArray(upstreamResponse?.data?.data) ? upstreamResponse.data.data : null;
@@ -860,8 +1179,14 @@ app.get('/anime/:slug', async (req, res) => {
     });
 
     if (isUpstreamAnimeNotFoundResponse(upstreamResponse)) {
-      const state = await refreshOrphanIndex();
-      const restoredItem = getRestoredAnimeItem(state, req.params.slug);
+      let state = await refreshOrphanIndex();
+      let restoredItem = getRestoredAnimeItem(state, req.params.slug);
+
+      if (!restoredItem) {
+        restoredItem = await maybeDiscoverAndPersistOrphan(req.params.slug);
+        state = await refreshOrphanIndex();
+        restoredItem = restoredItem || getRestoredAnimeItem(state, req.params.slug);
+      }
 
       if (restoredItem) {
         return res.status(200).json(buildRestoredAnimePayload(restoredItem));
