@@ -1,12 +1,819 @@
 {
-  "generatedAt": "2026-04-27T18:46:14.252Z",
+  "generatedAt": "2026-04-27T20:06:54.792Z",
   "upstream": "https://hapi.hentaicdn.org/api",
   "siteId": "5",
   "typeId": 16,
   "seed": null,
-  "scannedSourceTitles": 1,
-  "orphanCount": 2,
+  "scannedSourceTitles": 3,
+  "orphanCount": 4,
   "items": [
+    {
+      "id": 20545,
+      "slug_url": "20545--oshi-no-ko-anime",
+      "slug": "oshi-no-ko-anime",
+      "name": "[Oshi no Ko]",
+      "rus_name": "Ребёнок идола",
+      "eng_name": "Oshi No Ko",
+      "type": {
+        "id": 16,
+        "label": "TV Сериал"
+      },
+      "status": {
+        "id": 2,
+        "label": "Завершён"
+      },
+      "ageRestriction": {
+        "id": 2,
+        "label": "PG-13"
+      },
+      "cover": {
+        "filename": "778c0a2d-45af-493c-ab16-e84a4924ef8b",
+        "thumbnail": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b_thumb.jpg",
+        "default": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg",
+        "md": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg"
+      },
+      "site": 5,
+      "restored": true,
+      "restore_reason": "anime_route_404_but_relations_and_episodes_exist",
+      "episodes_count": 12,
+      "seasons": [
+        "1",
+        "10000"
+      ],
+      "first_episode_id": 109932,
+      "last_episode_id": 111524,
+      "episodes": [
+        {
+          "id": 109932,
+          "model": "episodes",
+          "name": "Мама и дети",
+          "number": "1",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-04-12T21:18:53.000000Z",
+          "item_number": 1,
+          "type": "episodes"
+        },
+        {
+          "id": 110258,
+          "model": "episodes",
+          "name": "Третий путь",
+          "number": "2",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-04-19T16:32:24.000000Z",
+          "item_number": 2,
+          "type": "episodes"
+        },
+        {
+          "id": 110781,
+          "model": "episodes",
+          "name": "Телевизионная драма на основе манги",
+          "number": "3",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-04-26T17:35:15.000000Z",
+          "item_number": 3,
+          "type": "episodes"
+        },
+        {
+          "id": 111046,
+          "model": "episodes",
+          "name": "Актеры",
+          "number": "4",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-05-03T16:38:36.000000Z",
+          "item_number": 4,
+          "type": "episodes"
+        },
+        {
+          "id": 111181,
+          "model": "episodes",
+          "name": "Реалити-шоу знакомств",
+          "number": "5",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-05-10T16:58:02.000000Z",
+          "item_number": 5,
+          "type": "episodes"
+        },
+        {
+          "id": 111315,
+          "model": "episodes",
+          "name": "Эгосёрфинг",
+          "number": "6",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-05-17T16:26:36.000000Z",
+          "item_number": 6,
+          "type": "episodes"
+        },
+        {
+          "id": 111435,
+          "model": "episodes",
+          "name": "Гул",
+          "number": "7",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-05-24T16:20:34.000000Z",
+          "item_number": 7,
+          "type": "episodes"
+        },
+        {
+          "id": 111624,
+          "model": "episodes",
+          "name": "Первый раз",
+          "number": "8",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-06-07T16:14:44.000000Z",
+          "item_number": 8,
+          "type": "episodes"
+        },
+        {
+          "id": 111818,
+          "model": "episodes",
+          "name": "B Komachi",
+          "number": "9",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-06-14T16:20:32.000000Z",
+          "item_number": 9,
+          "type": "episodes"
+        },
+        {
+          "id": 112002,
+          "model": "episodes",
+          "name": "Давление",
+          "number": "10",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-06-21T16:26:40.000000Z",
+          "item_number": 10,
+          "type": "episodes"
+        },
+        {
+          "id": 112159,
+          "model": "episodes",
+          "name": "Айдол",
+          "number": "11",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20545,
+          "created_at": "2023-06-28T16:08:40.000000Z",
+          "item_number": 11,
+          "type": "episodes"
+        },
+        {
+          "id": 111524,
+          "model": "episodes",
+          "name": "Рекап",
+          "number": "1",
+          "number_secondary": "10000",
+          "season": "10000",
+          "status": {
+            "id": "recap",
+            "label": "Рекап",
+            "abbr": "R"
+          },
+          "anime_id": 20545,
+          "created_at": "2023-05-31T16:57:19.000000Z",
+          "item_number": 12,
+          "type": "episodes"
+        }
+      ],
+      "source_manga": {
+        "id": 29759,
+        "name": "Oshi no Ko",
+        "rus_name": "Звёздное Дитя",
+        "eng_name": "Idol of Child",
+        "model": "manga",
+        "slug": "oshi-no-ko",
+        "slug_url": "29759--oshi-no-ko",
+        "cover": {
+          "filename": "c7e2dd66-a2e0-4924-93fc-2685e2d5d311",
+          "thumbnail": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311_thumb.jpg",
+          "default": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg",
+          "md": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg"
+        },
+        "ageRestriction": {
+          "id": 3,
+          "label": "16+"
+        },
+        "site": 1,
+        "type": {
+          "id": 1,
+          "label": "Манга"
+        },
+        "content_marking": [],
+        "status": {
+          "id": 2,
+          "label": "Завершён"
+        },
+        "releaseDateString": ""
+      },
+      "related_anime": [
+        {
+          "relation_type": "Продолжение",
+          "media": {
+            "id": 22750,
+            "name": "[Oshi no Ko] 2nd Season",
+            "rus_name": "Ребёнок идола 2",
+            "eng_name": "Oshi no Ko Season 2",
+            "model": "anime",
+            "slug": "oshi-no-ko-2nd-season-anime",
+            "slug_url": "22750--oshi-no-ko-2nd-season-anime",
+            "cover": {
+              "filename": "87a9fb9a-f510-4e61-963c-7e5b6f5f121c",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Кроссовер",
+          "media": {
+            "id": 22179,
+            "name": "Idol",
+            "rus_name": "Идол",
+            "eng_name": null,
+            "model": "anime",
+            "slug": "idol-anime",
+            "slug_url": "22179--idol-anime",
+            "cover": {
+              "filename": "de498577-f91f-4fc5-8487-0d94efa92c6f",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22179/cover/de498577-f91f-4fc5-8487-0d94efa92c6f_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/22179/cover/de498577-f91f-4fc5-8487-0d94efa92c6f.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/22179/cover/de498577-f91f-4fc5-8487-0d94efa92c6f.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 22,
+              "label": "Клип"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        }
+      ],
+      "discovered_from": [
+        {
+          "source_slug_url": "22750--oshi-no-ko-2nd-season-anime",
+          "relation_type": "Предыстория"
+        }
+      ],
+      "card": {
+        "data": {
+          "id": 20545,
+          "name": "[Oshi no Ko]",
+          "rus_name": "Ребёнок идола",
+          "eng_name": "Oshi No Ko",
+          "model": "anime",
+          "slug": "oshi-no-ko-anime",
+          "slug_url": "20545--oshi-no-ko-anime",
+          "cover": {
+            "filename": "778c0a2d-45af-493c-ab16-e84a4924ef8b",
+            "thumbnail": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b_thumb.jpg",
+            "default": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg",
+            "md": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg"
+          },
+          "ageRestriction": {
+            "id": 2,
+            "label": "PG-13"
+          },
+          "site": 5,
+          "type": {
+            "id": 16,
+            "label": "TV Сериал"
+          },
+          "content_marking": [],
+          "status": {
+            "id": 2,
+            "label": "Завершён"
+          },
+          "releaseDateString": "",
+          "anilist_id": null,
+          "shiki_rate": null
+        },
+        "meta": {
+          "restored": true,
+          "orphaned": true,
+          "episodes_count": 12,
+          "seasons": [
+            "1",
+            "10000"
+          ],
+          "discovered_from": [
+            "22750--oshi-no-ko-2nd-season-anime"
+          ]
+        }
+      }
+    },
+    {
+      "id": 22750,
+      "slug_url": "22750--oshi-no-ko-2nd-season-anime",
+      "slug": "oshi-no-ko-2nd-season-anime",
+      "name": "[Oshi no Ko] 2nd Season",
+      "rus_name": "Ребёнок идола 2",
+      "eng_name": "Oshi no Ko Season 2",
+      "type": {
+        "id": 16,
+        "label": "TV Сериал"
+      },
+      "status": {
+        "id": 2,
+        "label": "Завершён"
+      },
+      "ageRestriction": {
+        "id": 2,
+        "label": "PG-13"
+      },
+      "cover": {
+        "filename": "87a9fb9a-f510-4e61-963c-7e5b6f5f121c",
+        "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c_thumb.jpg",
+        "default": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg",
+        "md": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg"
+      },
+      "site": 5,
+      "restored": true,
+      "restore_reason": "anime_route_404_but_relations_and_episodes_exist",
+      "episodes_count": 13,
+      "seasons": [
+        "2"
+      ],
+      "first_episode_id": 121030,
+      "last_episode_id": 122840,
+      "episodes": [
+        {
+          "id": 121030,
+          "model": "episodes",
+          "name": "Токийский клинок",
+          "number": "1",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-07-03T16:09:59.000000Z",
+          "item_number": 1,
+          "type": "episodes"
+        },
+        {
+          "id": 121177,
+          "model": "episodes",
+          "name": "Сломанный телефон",
+          "number": "2",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-07-10T16:11:41.000000Z",
+          "item_number": 2,
+          "type": "episodes"
+        },
+        {
+          "id": 121348,
+          "model": "episodes",
+          "name": "Переписывание",
+          "number": "3",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-07-17T16:37:14.000000Z",
+          "item_number": 3,
+          "type": "episodes"
+        },
+        {
+          "id": 121460,
+          "model": "episodes",
+          "name": "Чувственная игра",
+          "number": "4",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-07-24T15:33:43.000000Z",
+          "item_number": 4,
+          "type": "episodes"
+        },
+        {
+          "id": 121615,
+          "model": "episodes",
+          "name": "Премьера",
+          "number": "5",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-07-31T16:24:45.000000Z",
+          "item_number": 5,
+          "type": "episodes"
+        },
+        {
+          "id": 121737,
+          "model": "episodes",
+          "name": "Рост",
+          "number": "6",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-08-07T15:49:46.000000Z",
+          "item_number": 6,
+          "type": "episodes"
+        },
+        {
+          "id": 121839,
+          "model": "episodes",
+          "name": "Солнце",
+          "number": "7",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-08-14T10:18:47.000000Z",
+          "item_number": 7,
+          "type": "episodes"
+        },
+        {
+          "id": 121998,
+          "model": "episodes",
+          "name": "Триггер",
+          "number": "8",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-08-21T16:25:32.000000Z",
+          "item_number": 8,
+          "type": "episodes"
+        },
+        {
+          "id": 122127,
+          "model": "episodes",
+          "name": "Мечта",
+          "number": "9",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-08-28T16:46:38.000000Z",
+          "item_number": 9,
+          "type": "episodes"
+        },
+        {
+          "id": 122379,
+          "model": "episodes",
+          "name": "Освобождение",
+          "number": "10",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-09-11T16:41:05.000000Z",
+          "item_number": 10,
+          "type": "episodes"
+        },
+        {
+          "id": 122486,
+          "model": "episodes",
+          "name": "Свобода",
+          "number": "11",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-09-18T16:21:54.000000Z",
+          "item_number": 11,
+          "type": "episodes"
+        },
+        {
+          "id": 122576,
+          "model": "episodes",
+          "name": "Воссоединение",
+          "number": "12",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-09-25T16:11:45.000000Z",
+          "item_number": 12,
+          "type": "episodes"
+        },
+        {
+          "id": 122840,
+          "model": "episodes",
+          "name": "Желание",
+          "number": "13",
+          "number_secondary": "2",
+          "season": "2",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 22750,
+          "created_at": "2024-10-06T12:02:27.000000Z",
+          "item_number": 13,
+          "type": "episodes"
+        }
+      ],
+      "source_manga": {
+        "id": 29759,
+        "name": "Oshi no Ko",
+        "rus_name": "Звёздное Дитя",
+        "eng_name": "Idol of Child",
+        "model": "manga",
+        "slug": "oshi-no-ko",
+        "slug_url": "29759--oshi-no-ko",
+        "cover": {
+          "filename": "c7e2dd66-a2e0-4924-93fc-2685e2d5d311",
+          "thumbnail": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311_thumb.jpg",
+          "default": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg",
+          "md": "https://cover.hentaicdn.org/uploads/cover/oshi-no-ko/cover/c7e2dd66-a2e0-4924-93fc-2685e2d5d311.jpg"
+        },
+        "ageRestriction": {
+          "id": 3,
+          "label": "16+"
+        },
+        "site": 1,
+        "type": {
+          "id": 1,
+          "label": "Манга"
+        },
+        "content_marking": [],
+        "status": {
+          "id": 2,
+          "label": "Завершён"
+        },
+        "releaseDateString": ""
+      },
+      "related_anime": [
+        {
+          "relation_type": "Предыстория",
+          "media": {
+            "id": 20545,
+            "name": "[Oshi no Ko]",
+            "rus_name": "Ребёнок идола",
+            "eng_name": "Oshi No Ko",
+            "model": "anime",
+            "slug": "oshi-no-ko-anime",
+            "slug_url": "20545--oshi-no-ko-anime",
+            "cover": {
+              "filename": "778c0a2d-45af-493c-ab16-e84a4924ef8b",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/20545/cover/778c0a2d-45af-493c-ab16-e84a4924ef8b.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Продолжение",
+          "media": {
+            "id": 24326,
+            "name": "[Oshi no Ko] 3rd Season",
+            "rus_name": "Ребёнок идола 3",
+            "eng_name": "【OSHI NO KO】Season 3",
+            "model": "anime",
+            "slug": "oshi-no-ko-3rd-season-anime",
+            "slug_url": "24326--oshi-no-ko-3rd-season-anime",
+            "cover": {
+              "filename": "47b2456f-8170-4322-97d3-f5fcf3ee9ee2",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/24326/cover/47b2456f-8170-4322-97d3-f5fcf3ee9ee2.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        }
+      ],
+      "discovered_from": [
+        {
+          "source_slug_url": "24326--oshi-no-ko-3rd-season-anime",
+          "relation_type": "Предыстория"
+        }
+      ],
+      "card": {
+        "data": {
+          "id": 22750,
+          "name": "[Oshi no Ko] 2nd Season",
+          "rus_name": "Ребёнок идола 2",
+          "eng_name": "Oshi no Ko Season 2",
+          "model": "anime",
+          "slug": "oshi-no-ko-2nd-season-anime",
+          "slug_url": "22750--oshi-no-ko-2nd-season-anime",
+          "cover": {
+            "filename": "87a9fb9a-f510-4e61-963c-7e5b6f5f121c",
+            "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c_thumb.jpg",
+            "default": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg",
+            "md": "https://cover.hentaicdn.org/uploads/anime/22750/cover/87a9fb9a-f510-4e61-963c-7e5b6f5f121c.jpg"
+          },
+          "ageRestriction": {
+            "id": 2,
+            "label": "PG-13"
+          },
+          "site": 5,
+          "type": {
+            "id": 16,
+            "label": "TV Сериал"
+          },
+          "content_marking": [],
+          "status": {
+            "id": 2,
+            "label": "Завершён"
+          },
+          "releaseDateString": "",
+          "anilist_id": null,
+          "shiki_rate": null
+        },
+        "meta": {
+          "restored": true,
+          "orphaned": true,
+          "episodes_count": 13,
+          "seasons": [
+            "2"
+          ],
+          "discovered_from": [
+            "24326--oshi-no-ko-3rd-season-anime"
+          ]
+        }
+      }
+    },
     {
       "id": 24075,
       "slug_url": "24075--witch-watch-anime",
@@ -949,6 +1756,10 @@
       ],
       "discovered_from": [
         {
+          "source_slug_url": "22750--oshi-no-ko-2nd-season-anime",
+          "relation_type": "Продолжение"
+        },
+        {
           "source_slug_url": "26956--oshi-no-ko-final-season-anime",
           "relation_type": "Предыстория"
         }
@@ -1001,9 +1812,9 @@
     }
   ],
   "mergeMeta": {
-    "inserted": 0,
+    "inserted": 2,
     "replaced": 1,
     "existingCount": 2,
-    "incomingCount": 1
+    "incomingCount": 3
   }
 }
