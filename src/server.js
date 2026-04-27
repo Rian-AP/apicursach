@@ -302,6 +302,39 @@ function buildRestoredSimilarPayload(item) {
   };
 }
 
+function mergeSimilarPayloads(restoredPayload, upstreamPayload) {
+  const restoredItems = Array.isArray(restoredPayload?.data) ? restoredPayload.data : [];
+  const upstreamItems = Array.isArray(upstreamPayload?.data) ? upstreamPayload.data : [];
+  const seen = new Set();
+  const merged = [];
+
+  const pushItem = (item) => {
+    const media = item?.media || {};
+    const key = String(media.slug_url || media.slug || media.id || '').trim().toLowerCase();
+    if (!key || seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    merged.push(item);
+  };
+
+  restoredItems.forEach(pushItem);
+  upstreamItems.forEach(pushItem);
+
+  return {
+    data: merged,
+    meta: {
+      ...(upstreamPayload?.meta || {}),
+      ...(restoredPayload?.meta || {}),
+      merged: true,
+      restored_count: restoredItems.length,
+      upstream_count: upstreamItems.length,
+      total_count: merged.length
+    }
+  };
+}
+
 function isUpstreamAnimeNotFoundResponse(response) {
   if (response?.status === 404) {
     return true;
@@ -1157,13 +1190,11 @@ app.get('/anime/:slug/similar', async (req, res) => {
     const restoredSimilarPayload = restoredItem ? buildRestoredSimilarPayload(restoredItem) : null;
     const hasRestoredSimilar = Array.isArray(restoredSimilarPayload?.data) && restoredSimilarPayload.data.length > 0;
     const upstreamSimilarItems = Array.isArray(upstreamResponse?.data?.data) ? upstreamResponse.data.data : null;
-    const shouldUseRestoredSimilar = restoredItem && hasRestoredSimilar && (
-      isUpstreamAnimeNotFoundResponse(upstreamResponse) ||
-      (Array.isArray(upstreamSimilarItems) && upstreamSimilarItems.length === 0)
-    );
+    const shouldUseRestoredSimilar = restoredItem && hasRestoredSimilar;
 
     if (shouldUseRestoredSimilar) {
-      return res.status(200).json(restoredSimilarPayload);
+      const mergedSimilarPayload = mergeSimilarPayloads(restoredSimilarPayload, upstreamResponse.data);
+      return res.status(200).json(mergedSimilarPayload);
     }
 
     return sendUpstreamResponse(res, upstreamResponse);
