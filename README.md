@@ -35,7 +35,7 @@ npm start
 - принудительно включает `data/**/*.json` в bundle функции
 - задаёт регион исполнения `arn1`
 - поднимает лимит функции до `300s`
-- запускает cron rebuild каждые `6` часов через `/internal/orphans/rebuild`
+- запускает cron rebuild раз в день через `/internal/orphans/rebuild`
 
 Минимальный сценарий:
 
@@ -156,6 +156,7 @@ curl -X POST "http://localhost:4000/internal/orphans/rebuild?replace=true&max_pa
 Нюанс по Vercel Cron:
 
 - cron работает только на production deployment
+- на Hobby cron можно запускать только раз в день
 - один cron-запуск не должен пытаться сканировать весь каталог на Hobby
 - поэтому по умолчанию rebuild ограничен `ORPHAN_REBUILD_MAX_PAGES=5`
 - для полного rebuild лучше либо manual запускать частями, либо делать оффлайн через CLI и потом заливать индекс в Blob
