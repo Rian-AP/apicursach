@@ -173,6 +173,7 @@ curl -X POST "http://localhost:4000/internal/orphans/rebuild?replace=true&max_pa
 
 ```bash
 curl "http://localhost:4000/latest-updates?page=1"
+curl "http://localhost:4000/top-views?time=day"
 curl "http://localhost:4000/anime?q=naruto"
 curl "http://localhost:4000/anime/26956--oshi-no-ko-final-season-anime"
 curl "http://localhost:4000/anime/26956--oshi-no-ko-final-season-anime/similar"
@@ -183,6 +184,18 @@ curl "http://localhost:4000/episodes/455?resolve=all"
 ```
 
 `/anime` возвращает обычный upstream-поиск и на первой странице подмешивает локально восстановленные orphan-карточки.
+
+`/top-views` возвращает агрегированный блок `Сейчас смотрят` сразу по трём группам:
+
+- `Завершённое`
+- `Онгоинг`
+- `Полнометражное`
+
+Поддерживаемые периоды:
+
+- `?time=day`
+- `?time=week`
+- `?time=month`
 
 `/anime/:slug` сначала идёт в upstream, а если там `404`, пытается восстановить карточку из локального orphan-индекса.
 

@@ -569,6 +569,115 @@ function mergeAnimeSearchPayload(payload, orphanMatches) {
   };
 }
 
+const TOP_VIEWS_GROUPS = [
+  { key: 'completed', label: 'Завершённое', popularity: '21' },
+  { key: 'ongoing', label: 'Онгоинг', popularity: '22' },
+  { key: 'movie', label: 'Полнометражное', popularity: '23' }
+];
+
+const TOP_VIEWS_TIME_LABELS = {
+  day: 'За день',
+  week: 'За неделю',
+  month: 'За месяц'
+};
+
+function parseTopViewsTime(value) {
+  const normalized = String(value ?? 'day').trim().toLowerCase();
+  return Object.prototype.hasOwnProperty.call(TOP_VIEWS_TIME_LABELS, normalized)
+    ? normalized
+    : null;
+}
+
+function getTopViewsMetricKey(time) {
+  return `views_${time}`;
+}
+
+function extractUpstreamCollection(payload) {
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  if (Array.isArray(payload?.data)) {
+    return payload.data;
+  }
+
+  return [];
+}
+
+async function fetchTopViewsGroup(group, options = {}) {
+  const response = await upstream.get('/media/top-views', {
+    params: {
+      time: options.time,
+      popularity: group.popularity,
+      page: options.page
+    },
+    validateStatus: () => true
+  });
+
+  if (response.status < 200 || response.status >= 300) {
+    const error = new Error(`Top views upstream failed for popularity ${group.popularity}`);
+    error.response = response;
+    throw error;
+  }
+
+  const items = extractUpstreamCollection(response.data);
+
+  return {
+    key: group.key,
+    label: group.label,
+    popularity: group.popularity,
+    metric: getTopViewsMetricKey(options.time),
+    count: items.length,
+    items
+  };
+}
+
+async function buildTopViewsPayload(options = {}) {
+  const settled = await Promise.allSettled(
+    TOP_VIEWS_GROUPS.map((group) => fetchTopViewsGroup(group, options))
+  );
+
+  const groups = [];
+  const errors = [];
+
+  for (let index = 0; index < settled.length; index += 1) {
+    const result = settled[index];
+    const group = TOP_VIEWS_GROUPS[index];
+
+    if (result.status === 'fulfilled') {
+      groups.push(result.value);
+      continue;
+    }
+
+    errors.push({
+      key: group.key,
+      label: group.label,
+      popularity: group.popularity,
+      message: result.reason?.message || 'Unknown upstream error'
+    });
+  }
+
+  if (groups.length === 0) {
+    const failure = settled.find((entry) => entry.status === 'rejected');
+    throw failure?.reason || new Error('Top views upstream unavailable');
+  }
+
+  return {
+    data: {
+      title: 'Сейчас смотрят',
+      time: options.time,
+      time_label: TOP_VIEWS_TIME_LABELS[options.time],
+      page: options.page,
+      groups
+    },
+    meta: {
+      partial: errors.length > 0,
+      group_count: groups.length,
+      errors
+    }
+  };
+}
+
 function sendUpstreamError(res, error) {
   const status = error?.response?.status;
   if (status) {
@@ -935,6 +1044,19 @@ function openApiSpec() {
           }
         }
       },
+      '/top-views': {
+        get: {
+          summary: 'Агрегированный блок "Сейчас смотрят" по AnimeLib top views',
+          parameters: [
+            { name: 'time', in: 'query', schema: { type: 'string', enum: ['day', 'week', 'month'], default: 'day' } },
+            { name: 'page', in: 'query', schema: { type: 'integer', minimum: 1, default: 1 } }
+          ],
+          responses: {
+            '200': { description: 'Aggregated top views payload' },
+            '400': { description: 'Invalid query params' }
+          }
+        }
+      },
       '/anime': {
         get: {
           summary: 'Поиск аниме с подмешиванием локально восстановленных orphan-страниц',
@@ -1143,6 +1265,26 @@ app.post('/internal/orphans/rebuild', async (req, res) => {
 
 app.get('/latest-updates', async (req, res) => {
   return proxyGet(req, res, '/latest-updates');
+});
+
+app.get('/top-views', async (req, res) => {
+  const time = parseTopViewsTime(req.query.time);
+  if (!time) {
+    return res.status(400).json({
+      ok: false,
+      error: 'Invalid time value',
+      allowed: Object.keys(TOP_VIEWS_TIME_LABELS)
+    });
+  }
+
+  const page = parsePositiveNumber(req.query.page, 1);
+
+  try {
+    const payload = await buildTopViewsPayload({ time, page });
+    return res.json(payload);
+  } catch (error) {
+    return sendUpstreamError(res, error);
+  }
 });
 
 app.get('/anime', async (req, res) => {
