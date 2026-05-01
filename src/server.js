@@ -23,6 +23,7 @@ const API_BASE_URL = process.env.API_BASE_URL || 'https://hapi.hentaicdn.org/api
 const SITE_ID = String(process.env.SITE_ID || '5');
 const REQUEST_TIMEOUT_MS = Number(process.env.REQUEST_TIMEOUT_MS || 15000);
 const PLAYER_RESOLVE_TTL_MS = Number(process.env.PLAYER_RESOLVE_TTL_MS || 10 * 60 * 1000);
+const TOP_VIEWS_CACHE_TTL_MS = Number(process.env.TOP_VIEWS_CACHE_TTL_MS || 5 * 60 * 1000);
 const ORPHAN_INDEX_PATH = path.resolve(
   process.cwd(),
   process.env.ORPHAN_INDEX_PATH || 'data/orphan-tv-anime.json'
@@ -54,6 +55,7 @@ const BROWSER_USER_AGENT = [
 
 const playerResolveCache = new Map();
 const runtimeDiscoveryCache = new Map();
+const topViewsCache = new Map();
 const orphanState = {
   checkedAt: 0,
   items: [],
@@ -633,6 +635,12 @@ async function fetchTopViewsGroup(group, options = {}) {
 }
 
 async function buildTopViewsPayload(options = {}) {
+  const cacheKey = `${options.time || 'day'}:${options.page || 1}`;
+  const cached = topViewsCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.payload;
+  }
+
   const settled = await Promise.allSettled(
     TOP_VIEWS_GROUPS.map((group) => fetchTopViewsGroup(group, options))
   );
@@ -662,7 +670,7 @@ async function buildTopViewsPayload(options = {}) {
     throw failure?.reason || new Error('Top views upstream unavailable');
   }
 
-  return {
+  const payload = {
     data: {
       title: 'Сейчас смотрят',
       time: options.time,
@@ -676,6 +684,13 @@ async function buildTopViewsPayload(options = {}) {
       errors
     }
   };
+
+  topViewsCache.set(cacheKey, {
+    payload,
+    expiresAt: Date.now() + TOP_VIEWS_CACHE_TTL_MS
+  });
+
+  return payload;
 }
 
 function sendUpstreamError(res, error) {
@@ -1348,6 +1363,7 @@ app.get('/anime/:slug/similar', async (req, res) => {
 app.get('/anime/:slug', async (req, res) => {
   try {
     const upstreamResponse = await upstream.get(`/anime/${encodeURIComponent(req.params.slug)}`, {
+      params: { 'fields[]': 'background' },
       validateStatus: () => true
     });
 
