@@ -1475,9 +1475,21 @@ app.get('/anime/:slug', async (req, res) => {
 
         const slugIdMatch = req.params.slug.match(/^(\d+)--/);
         const slugNumericId = slugIdMatch ? Number(slugIdMatch[1]) : null;
-        const minimalMedia = slugNumericId
-          ? { id: slugNumericId, slug_url: req.params.slug, slug: req.params.slug, model: 'anime', site: 5 }
-          : null;
+        const hintCover = String(req.query.hintCover || '').trim() || null;
+        const hintName = String(req.query.hintName || '').trim() || null;
+        const hintRus = String(req.query.hintRus || '').trim() || null;
+        const hintEng = String(req.query.hintEng || '').trim() || null;
+        const minimalMedia = slugNumericId ? {
+          id: slugNumericId,
+          slug_url: req.params.slug,
+          slug: req.params.slug,
+          model: 'anime',
+          site: 5,
+          name: hintName || hintEng || hintRus || null,
+          rus_name: hintRus || null,
+          eng_name: hintEng || null,
+          cover: hintCover ? { default: hintCover, md: hintCover, thumbnail: hintCover } : null,
+        } : null;
 
         if (!pendingDiscoveries.has(slugKey)) {
           const discoveryPromise = (async () => {
