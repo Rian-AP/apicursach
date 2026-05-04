@@ -8,6 +8,7 @@ const axios = require('axios');
 const {
   discoverOrphans,
   discoverOrphanBySlug,
+  discoverOrphanFromSource,
   mergeOrphanPayloads
 } = require('./orphan-discovery');
 const {
@@ -1193,6 +1194,56 @@ app.get('/health', async (_req, res) => {
   });
 });
 
+app.post('/internal/orphans/add', async (req, res) => {
+  if (!isInternalRequestAuthorized(req)) {
+    return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  }
+
+  const slug = String((req.body?.slug || req.query.slug || '')).trim();
+  const sourceSlug = String((req.body?.sourceSlug || req.query.sourceSlug || '')).trim();
+
+  if (!slug || !sourceSlug) {
+    return res.status(400).json({ ok: false, error: 'slug and sourceSlug are required' });
+  }
+
+  try {
+    const discovered = await discoverOrphanFromSource(slug, sourceSlug);
+    if (!discovered) {
+      return res.status(404).json({ ok: false, error: 'Orphan not found in source relations or not a 404 anime' });
+    }
+
+    const existingState = await refreshOrphanIndex();
+    const merged = mergeOrphanPayloads(discovered, existingState.rawPayload);
+    const saveResult = await saveOrphanIndexPayload(merged);
+
+    orphanState.checkedAt = 0;
+    await refreshOrphanIndex(true);
+
+    return res.json({
+      ok: true,
+      slug,
+      sourceSlug,
+      orphanCount: merged.orphanCount,
+      saveSource: saveResult.source
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, error: error?.message || String(error) });
+  }
+});
+
+app.post('/internal/cache/clear', (req, res) => {
+  if (!isInternalRequestAuthorized(req)) {
+    return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  }
+
+  const count = animeDetailsCache.size;
+  animeDetailsCache.clear();
+  playerResolveCache.clear();
+  topViewsCache.clear();
+
+  return res.json({ ok: true, cleared: count });
+});
+
 app.get('/internal/orphans/status', async (req, res) => {
   if (!isInternalRequestAuthorized(req, { allowCron: true })) {
     return res.status(401).json({
@@ -1416,9 +1467,13 @@ app.get('/anime/:slug', async (req, res) => {
       let restoredItem = getRestoredAnimeItem(state, req.params.slug);
 
       if (!restoredItem) {
-        restoredItem = await maybeDiscoverAndPersistOrphan(req.params.slug);
-        state = await refreshOrphanIndex();
-        restoredItem = restoredItem || getRestoredAnimeItem(state, req.params.slug);
+        maybeDiscoverAndPersistOrphan(req.params.slug).catch(() => {});
+        return res.status(404).json({
+          ok: false,
+          error: 'Not found',
+          discovering: true,
+          message: 'Discovery in progress, retry in a few seconds'
+        });
       }
 
       if (restoredItem) {

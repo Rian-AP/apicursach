@@ -512,6 +512,51 @@ async function discoverOrphanBySlug(targetRouteKey, args = {}) {
   return null;
 }
 
+async function discoverOrphanFromSource(targetRouteKey, sourceSlugUrl, args = {}) {
+  const targetKey = String(targetRouteKey || '').trim().toLowerCase();
+  const sourceKey = String(sourceSlugUrl || '').trim();
+  if (!targetKey || !sourceKey) return null;
+
+  const api = args.api || createDiscoveryClient();
+  const relationsCache = new Map();
+  const episodesCache = new Map();
+
+  const relations = await fetchAnimeRelations(api, sourceKey, relationsCache);
+
+  for (const relation of relations) {
+    const media = relation?.media;
+    if (!media || media.model !== 'anime' || media.site !== 5) continue;
+
+    const mediaKeys = [
+      String(media.slug_url || '').toLowerCase(),
+      String(media.slug || '').toLowerCase()
+    ];
+    if (!mediaKeys.includes(targetKey)) continue;
+
+    const animeResponse = await fetchAnimeCard(api, media.slug_url, new Map());
+    if (animeResponse.status !== 404) return null;
+
+    const episodes = await fetchEpisodes(api, media.id, episodesCache);
+    if (episodes.length === 0) return null;
+
+    const orphanRelations = await fetchAnimeRelations(api, media.slug_url, relationsCache);
+    const item = buildRestoredCard(media, episodes, orphanRelations, [{
+      source_slug_url: sourceKey,
+      relation_type: relation?.related_type?.label || null
+    }]);
+
+    return buildPayloadFromItems([item], {
+      upstream: API_BASE_URL,
+      siteId: SITE_ID,
+      typeId: args.typeId || TV_SERIAL_TYPE_ID,
+      seed: null,
+      scannedSourceTitles: 1
+    });
+  }
+
+  return null;
+}
+
 async function main(argv = process.argv) {
   const args = parseArgs(argv);
   const payload = await discoverOrphans(args);
@@ -549,6 +594,7 @@ module.exports = {
   parseArgs,
   discoverOrphans,
   discoverOrphanBySlug,
+  discoverOrphanFromSource,
   mergeOrphanPayloads,
   main
 };
