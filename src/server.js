@@ -549,24 +549,33 @@ function mergeAnimeSearchPayload(payload, orphanMatches) {
     upstreamData.map((item) => `${item?.id || ''}:${item?.slug_url || ''}`)
   );
 
-  const restoredItems = orphanMatches
-    .map((entry) => mapOrphanToSearchItem(entry.item))
-    .filter((item) => {
-      const key = `${item?.id || ''}:${item?.slug_url || ''}`;
-      if (seen.has(key)) {
-        return false;
-      }
+  const topOrphans = [];
+  const bottomOrphans = [];
 
-      seen.add(key);
-      return true;
-    });
+  for (const entry of orphanMatches) {
+    const item = mapOrphanToSearchItem(entry.item);
+    const key = `${item?.id || ''}:${item?.slug_url || ''}`;
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+
+    if (entry.score >= 500) {
+      topOrphans.push(item);
+    } else {
+      bottomOrphans.push(item);
+    }
+  }
+
+  const restoredCount = topOrphans.length + bottomOrphans.length;
 
   return {
     ...payload,
-    data: [...upstreamData, ...restoredItems],
+    data: [...topOrphans, ...upstreamData, ...bottomOrphans],
     meta: {
       ...(payload?.meta || {}),
-      restored_count: restoredItems.length
+      restored_count: restoredCount
     }
   };
 }
