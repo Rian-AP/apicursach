@@ -1422,7 +1422,13 @@ app.get('/img', async (req, res) => {
     const imageResponse = await axios.get(url, {
       responseType: 'arraybuffer',
       timeout: REQUEST_TIMEOUT_MS,
-      headers: { 'User-Agent': BROWSER_USER_AGENT }
+      headers: {
+        'User-Agent': BROWSER_USER_AGENT,
+        'Referer': 'https://animelib.org/',
+        'Origin': 'https://animelib.org',
+        'Accept': 'image/webp,image/jpeg,image/*,*/*;q=0.8',
+        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
+      }
     });
 
     res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
