@@ -1371,10 +1371,32 @@ app.get('/anime/:slug/similar', async (req, res) => {
 
 app.get('/anime/:slug', async (req, res) => {
   try {
-    const upstreamResponse = await upstream.get(`/anime/${encodeURIComponent(req.params.slug)}`, {
-      params: { 'fields[]': 'background' },
-      validateStatus: () => true
-    });
+    const [upstreamResponse, relationsResponse] = await Promise.all([
+      upstream.get(`/anime/${encodeURIComponent(req.params.slug)}`, {
+        params: { 'fields[]': 'background' },
+        validateStatus: () => true
+      }),
+      upstream.get(`/anime/${encodeURIComponent(req.params.slug)}/relations`, {
+        validateStatus: () => true
+      })
+    ]);
+
+    if (
+      upstreamResponse.status === 200 &&
+      typeof upstreamResponse.data === 'object' &&
+      upstreamResponse.data?.data
+    ) {
+      const relations = Array.isArray(relationsResponse?.data?.data)
+        ? relationsResponse.data.data
+        : [];
+
+      if (relations.length > 0) {
+        upstreamResponse.data.data.related_anime = relations.map((entry) => ({
+          relation_type: entry?.related_type?.label || null,
+          media: entry?.media || null
+        }));
+      }
+    }
 
     if (isUpstreamAnimeNotFoundResponse(upstreamResponse)) {
       let state = await refreshOrphanIndex();
