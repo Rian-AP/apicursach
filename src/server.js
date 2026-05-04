@@ -59,6 +59,8 @@ const runtimeDiscoveryCache = new Map();
 const topViewsCache = new Map();
 const animeDetailsCache = new Map();
 const ANIME_DETAILS_CACHE_TTL_MS = Number(process.env.ANIME_DETAILS_CACHE_TTL_MS || 5 * 60 * 1000);
+const pendingDiscoveries = new Map();
+const DISCOVERY_TIMEOUT_MS = Number(process.env.DISCOVERY_TIMEOUT_MS || 20000);
 const orphanState = {
   checkedAt: 0,
   items: [],
@@ -1467,12 +1469,59 @@ app.get('/anime/:slug', async (req, res) => {
       let restoredItem = getRestoredAnimeItem(state, req.params.slug);
 
       if (!restoredItem) {
-        maybeDiscoverAndPersistOrphan(req.params.slug).catch(() => {});
+        const slugKey = String(req.params.slug).toLowerCase();
+        const sourceSlug = String(req.query.sourceSlug || '').trim();
+
+        if (!pendingDiscoveries.has(slugKey)) {
+          const discoveryPromise = (async () => {
+            try {
+              let discovered = null;
+
+              if (sourceSlug) {
+                const timeout = new Promise((_, reject) =>
+                  setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
+                );
+                discovered = await Promise.race([
+                  discoverOrphanFromSource(req.params.slug, sourceSlug),
+                  timeout
+                ]).catch(() => null);
+              }
+
+              if (discovered) {
+                const existing = await refreshOrphanIndex();
+                const merged = mergeOrphanPayloads(discovered, existing.rawPayload);
+                await saveOrphanIndexPayload(merged);
+                orphanState.checkedAt = 0;
+                await refreshOrphanIndex(true);
+              }
+
+              return discovered;
+            } finally {
+              pendingDiscoveries.delete(slugKey);
+            }
+          })();
+
+          pendingDiscoveries.set(slugKey, discoveryPromise);
+        }
+
+        const pending = pendingDiscoveries.get(slugKey);
+        const result = pending ? await pending.catch(() => null) : null;
+
+        if (result) {
+          const freshState = await refreshOrphanIndex();
+          const freshItem = getRestoredAnimeItem(freshState, req.params.slug);
+          if (freshItem) {
+            return res.status(200).json(buildRestoredAnimePayload(freshItem));
+          }
+        }
+
         return res.status(404).json({
           ok: false,
           error: 'Not found',
-          discovering: true,
-          message: 'Discovery in progress, retry in a few seconds'
+          discovering: Boolean(sourceSlug && !result),
+          message: sourceSlug && !result
+            ? 'Not found in source relations'
+            : 'Anime not found'
         });
       }
 
