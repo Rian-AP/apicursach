@@ -1,12 +1,495 @@
 {
-  "generatedAt": "2026-05-04T10:01:08.813Z",
+  "generatedAt": "2026-05-04T10:03:46.546Z",
   "upstream": "https://hapi.hentaicdn.org/api",
   "siteId": "5",
   "typeId": 16,
   "seed": "77a5dfe3405b9ff3347f8b1b6a6859ef",
   "scannedSourceTitles": 2940,
-  "orphanCount": 1,
+  "orphanCount": 2,
   "items": [
+    {
+      "id": 20595,
+      "slug_url": "20595--boku-no-kokoro-no-yabai-yatsu-anime",
+      "slug": "boku-no-kokoro-no-yabai-yatsu-anime",
+      "name": "Boku no Kokoro no Yabai Yatsu",
+      "rus_name": "Опасность в моём сердце",
+      "eng_name": "The Dangers in My Heart",
+      "type": {
+        "id": 16,
+        "label": "TV Сериал"
+      },
+      "status": {
+        "id": 2,
+        "label": "Завершён"
+      },
+      "ageRestriction": {
+        "id": 2,
+        "label": "PG-13"
+      },
+      "cover": {
+        "filename": "aa4397d6-d946-489f-a121-56002be9675b",
+        "thumbnail": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b_thumb.jpg",
+        "default": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b.jpg",
+        "md": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b.jpg"
+      },
+      "site": 5,
+      "restored": true,
+      "restore_reason": "anime_route_404_but_relations_and_episodes_exist",
+      "episodes_count": 13,
+      "seasons": [
+        "1",
+        "10000"
+      ],
+      "first_episode_id": 109691,
+      "last_episode_id": 125886,
+      "episodes": [
+        {
+          "id": 109691,
+          "model": "episodes",
+          "name": "",
+          "number": "1",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-04-01T12:39:04.000000Z",
+          "item_number": 1,
+          "type": "episodes"
+        },
+        {
+          "id": 109810,
+          "model": "episodes",
+          "name": "",
+          "number": "2",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-04-08T11:19:07.000000Z",
+          "item_number": 2,
+          "type": "episodes"
+        },
+        {
+          "id": 109967,
+          "model": "episodes",
+          "name": "",
+          "number": "3",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-04-15T20:17:10.000000Z",
+          "item_number": 3,
+          "type": "episodes"
+        },
+        {
+          "id": 110660,
+          "model": "episodes",
+          "name": "",
+          "number": "4",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-04-22T20:02:22.000000Z",
+          "item_number": 4,
+          "type": "episodes"
+        },
+        {
+          "id": 110929,
+          "model": "episodes",
+          "name": "",
+          "number": "5",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-04-29T20:08:30.000000Z",
+          "item_number": 5,
+          "type": "episodes"
+        },
+        {
+          "id": 111134,
+          "model": "episodes",
+          "name": "Я растопил",
+          "number": "6",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-05-06T21:07:25.000000Z",
+          "item_number": 6,
+          "type": "episodes"
+        },
+        {
+          "id": 111260,
+          "model": "episodes",
+          "name": "",
+          "number": "7",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-05-13T20:02:24.000000Z",
+          "item_number": 7,
+          "type": "episodes"
+        },
+        {
+          "id": 111370,
+          "model": "episodes",
+          "name": "Мне приснился сон...",
+          "number": "8",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-05-20T20:43:50.000000Z",
+          "item_number": 8,
+          "type": "episodes"
+        },
+        {
+          "id": 111469,
+          "model": "episodes",
+          "name": "",
+          "number": "9",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-05-27T20:02:31.000000Z",
+          "item_number": 9,
+          "type": "episodes"
+        },
+        {
+          "id": 111561,
+          "model": "episodes",
+          "name": "",
+          "number": "10",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-06-03T20:02:29.000000Z",
+          "item_number": 10,
+          "type": "episodes"
+        },
+        {
+          "id": 111695,
+          "model": "episodes",
+          "name": "",
+          "number": "11",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-06-10T20:02:29.000000Z",
+          "item_number": 11,
+          "type": "episodes"
+        },
+        {
+          "id": 111915,
+          "model": "episodes",
+          "name": "Я хочу, чтобы ты узнала меня",
+          "number": "12",
+          "number_secondary": "1",
+          "season": "1",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2023-06-17T20:13:33.000000Z",
+          "item_number": 12,
+          "type": "episodes"
+        },
+        {
+          "id": 125886,
+          "model": "episodes",
+          "name": "Спешл",
+          "number": "1",
+          "number_secondary": "10000",
+          "season": "10000",
+          "status": {
+            "id": "default",
+            "label": "Полноценный эпизод",
+            "abbr": null
+          },
+          "anime_id": 20595,
+          "created_at": "2025-01-16T18:03:29.000000Z",
+          "item_number": 13,
+          "type": "episodes"
+        }
+      ],
+      "source_manga": {
+        "id": 10753,
+        "name": "Boku no Kokoro no Yabai yatsu",
+        "rus_name": "Угрозы в моём сердце",
+        "eng_name": "The Dangers in My Heart",
+        "model": "manga",
+        "slug": "boku-no-kokoro-no-yabai-yatsu",
+        "slug_url": "10753--boku-no-kokoro-no-yabai-yatsu",
+        "cover": {
+          "filename": "ae7c1c35-2dd4-4fb5-b39f-300edb42e9b4",
+          "thumbnail": "https://cover.hentaicdn.org/uploads/cover/boku-no-kokoro-no-yabai-yatsu/cover/ae7c1c35-2dd4-4fb5-b39f-300edb42e9b4_thumb.jpg",
+          "default": "https://cover.hentaicdn.org/uploads/cover/boku-no-kokoro-no-yabai-yatsu/cover/ae7c1c35-2dd4-4fb5-b39f-300edb42e9b4.jpg",
+          "md": "https://cover.hentaicdn.org/uploads/cover/boku-no-kokoro-no-yabai-yatsu/cover/ae7c1c35-2dd4-4fb5-b39f-300edb42e9b4.jpg"
+        },
+        "ageRestriction": {
+          "id": 3,
+          "label": "16+"
+        },
+        "site": 1,
+        "type": {
+          "id": 1,
+          "label": "Манга"
+        },
+        "content_marking": [],
+        "status": {
+          "id": 1,
+          "label": "Онгоинг"
+        },
+        "releaseDateString": ""
+      },
+      "related_anime": [
+        {
+          "relation_type": "Другое",
+          "media": {
+            "id": 22563,
+            "name": "Shayou (Music)",
+            "rus_name": "Заходящее солнце",
+            "eng_name": "Setting Sun",
+            "model": "anime",
+            "slug": "shayou-music-anime",
+            "slug_url": "22563--shayou-music-anime",
+            "cover": {
+              "filename": "1135e6cc-2a26-4871-8e72-2cf2ea5ca29b",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22563/cover/1135e6cc-2a26-4871-8e72-2cf2ea5ca29b_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/22563/cover/1135e6cc-2a26-4871-8e72-2cf2ea5ca29b.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/22563/cover/1135e6cc-2a26-4871-8e72-2cf2ea5ca29b.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 22,
+              "label": "Клип"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Другое",
+          "media": {
+            "id": 23006,
+            "name": "Twi-Yaba",
+            "rus_name": "",
+            "eng_name": "",
+            "model": "anime",
+            "slug": "twi-yaba-anime",
+            "slug_url": "23006--twi-yaba-anime",
+            "cover": {
+              "filename": "43b45295-c24d-44bf-9652-bf653ef238a1",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/23006/cover/43b45295-c24d-44bf-9652-bf653ef238a1_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/23006/cover/43b45295-c24d-44bf-9652-bf653ef238a1.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/23006/cover/43b45295-c24d-44bf-9652-bf653ef238a1.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 21,
+              "label": "ONA"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 1,
+              "label": "Онгоинг"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Продолжение",
+          "media": {
+            "id": 22702,
+            "name": "Boku no Kokoro no Yabai Yatsu Season 2",
+            "rus_name": "Опасность в моём сердце 2",
+            "eng_name": "The Dangers in My Heart 2nd Season",
+            "model": "anime",
+            "slug": "boku-no-kokoro-no-yabai-yatsu-season-2-anime",
+            "slug_url": "22702--boku-no-kokoro-no-yabai-yatsu-season-2-anime",
+            "cover": {
+              "filename": "62be823d-b932-43cb-a022-a6517cf1d591",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/22702/cover/62be823d-b932-43cb-a022-a6517cf1d591_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/22702/cover/62be823d-b932-43cb-a022-a6517cf1d591.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/22702/cover/62be823d-b932-43cb-a022-a6517cf1d591.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 16,
+              "label": "TV Сериал"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        },
+        {
+          "relation_type": "Обобщение",
+          "media": {
+            "id": 24264,
+            "name": "Boku no Kokoro no Yabai Yatsu Movie",
+            "rus_name": "Опасность в моём сердце. Фильм",
+            "eng_name": null,
+            "model": "anime",
+            "slug": "boku-no-kokoro-no-yabai-yatsu-movie-anime",
+            "slug_url": "24264--boku-no-kokoro-no-yabai-yatsu-movie-anime",
+            "cover": {
+              "filename": "cd3787d8-81ae-43fb-9435-9d726ab8c2f6",
+              "thumbnail": "https://cover.hentaicdn.org/uploads/anime/24264/cover/cd3787d8-81ae-43fb-9435-9d726ab8c2f6_thumb.jpg",
+              "default": "https://cover.hentaicdn.org/uploads/anime/24264/cover/cd3787d8-81ae-43fb-9435-9d726ab8c2f6.jpg",
+              "md": "https://cover.hentaicdn.org/uploads/anime/24264/cover/cd3787d8-81ae-43fb-9435-9d726ab8c2f6.jpg"
+            },
+            "ageRestriction": {
+              "id": 2,
+              "label": "PG-13"
+            },
+            "site": 5,
+            "type": {
+              "id": 17,
+              "label": "Фильм"
+            },
+            "content_marking": [],
+            "status": {
+              "id": 2,
+              "label": "Завершён"
+            },
+            "releaseDateString": "",
+            "anilist_id": null,
+            "shiki_rate": null
+          }
+        }
+      ],
+      "discovered_from": [
+        {
+          "source_slug_url": "22702--boku-no-kokoro-no-yabai-yatsu-season-2-anime",
+          "relation_type": "Предыстория"
+        }
+      ],
+      "card": {
+        "data": {
+          "id": 20595,
+          "name": "Boku no Kokoro no Yabai Yatsu",
+          "rus_name": "Опасность в моём сердце",
+          "eng_name": "The Dangers in My Heart",
+          "model": "anime",
+          "slug": "boku-no-kokoro-no-yabai-yatsu-anime",
+          "slug_url": "20595--boku-no-kokoro-no-yabai-yatsu-anime",
+          "cover": {
+            "filename": "aa4397d6-d946-489f-a121-56002be9675b",
+            "thumbnail": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b_thumb.jpg",
+            "default": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b.jpg",
+            "md": "https://cover.hentaicdn.org/uploads/anime/20595/cover/aa4397d6-d946-489f-a121-56002be9675b.jpg"
+          },
+          "ageRestriction": {
+            "id": 2,
+            "label": "PG-13"
+          },
+          "site": 5,
+          "type": {
+            "id": 16,
+            "label": "TV Сериал"
+          },
+          "content_marking": [],
+          "status": {
+            "id": 2,
+            "label": "Завершён"
+          },
+          "releaseDateString": "",
+          "anilist_id": null,
+          "shiki_rate": null
+        },
+        "meta": {
+          "restored": true,
+          "orphaned": true,
+          "episodes_count": 13,
+          "seasons": [
+            "1",
+            "10000"
+          ],
+          "discovered_from": [
+            "22702--boku-no-kokoro-no-yabai-yatsu-season-2-anime"
+          ]
+        }
+      }
+    },
     {
       "id": 22702,
       "slug_url": "22702--boku-no-kokoro-no-yabai-yatsu-season-2-anime",
@@ -420,8 +903,8 @@
     }
   ],
   "mergeMeta": {
-    "inserted": 0,
-    "replaced": 1,
+    "inserted": 1,
+    "replaced": 0,
     "existingCount": 1,
     "incomingCount": 1
   }
