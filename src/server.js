@@ -1412,6 +1412,27 @@ app.get('/episodes/:id', async (req, res) => {
   }
 });
 
+app.get('/img', async (req, res) => {
+  const url = String(req.query.u || '').trim();
+  if (!url || !url.startsWith('https://cover.hentaicdn.org/')) {
+    return res.status(400).json({ ok: false, error: 'Invalid or missing url param' });
+  }
+
+  try {
+    const imageResponse = await axios.get(url, {
+      responseType: 'stream',
+      timeout: REQUEST_TIMEOUT_MS,
+      headers: { 'User-Agent': BROWSER_USER_AGENT }
+    });
+
+    res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    imageResponse.data.pipe(res);
+  } catch (error) {
+    return sendUpstreamError(res, error);
+  }
+});
+
 app.use((req, res) => {
   res.status(404).json({
     ok: false,
