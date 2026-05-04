@@ -9,6 +9,7 @@ const {
   discoverOrphans,
   discoverOrphanBySlug,
   discoverOrphanFromSource,
+  discoverOrphanFromMedia,
   mergeOrphanPayloads
 } = require('./orphan-discovery');
 const {
@@ -1472,12 +1473,30 @@ app.get('/anime/:slug', async (req, res) => {
         const slugKey = String(req.params.slug).toLowerCase();
         const sourceSlug = String(req.query.sourceSlug || '').trim();
 
+        const cachedSource = sourceSlug ? animeDetailsCache.get(String(sourceSlug).toLowerCase()) : null;
+        const mediaFromCache = cachedSource
+          ? (cachedSource.data?.data?.related_anime || [])
+              .map((r) => r?.media)
+              .find((m) => m && [
+                String(m.slug_url || '').toLowerCase(),
+                String(m.slug || '').toLowerCase()
+              ].includes(slugKey))
+          : null;
+
         if (!pendingDiscoveries.has(slugKey)) {
           const discoveryPromise = (async () => {
             try {
               let discovered = null;
 
-              if (sourceSlug) {
+              if (mediaFromCache) {
+                const timeout = new Promise((_, reject) =>
+                  setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
+                );
+                discovered = await Promise.race([
+                  discoverOrphanFromMedia(mediaFromCache, sourceSlug),
+                  timeout
+                ]).catch(() => null);
+              } else if (sourceSlug) {
                 const timeout = new Promise((_, reject) =>
                   setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
                 );

@@ -512,6 +512,32 @@ async function discoverOrphanBySlug(targetRouteKey, args = {}) {
   return null;
 }
 
+async function discoverOrphanFromMedia(media, sourceSlugUrl, args = {}) {
+  if (!media || !media.id) return null;
+
+  const api = args.api || createDiscoveryClient();
+
+  const [episodes, orphanRelations] = await Promise.all([
+    fetchEpisodes(api, media.id, new Map()),
+    fetchAnimeRelations(api, String(media.slug_url || media.slug || ''), new Map())
+  ]);
+
+  if (!episodes || episodes.length === 0) return null;
+
+  const item = buildRestoredCard(media, episodes, orphanRelations, [{
+    source_slug_url: String(sourceSlugUrl || ''),
+    relation_type: null
+  }]);
+
+  return buildPayloadFromItems([item], {
+    upstream: API_BASE_URL,
+    siteId: SITE_ID,
+    typeId: args.typeId || TV_SERIAL_TYPE_ID,
+    seed: null,
+    scannedSourceTitles: 1
+  });
+}
+
 async function discoverOrphanFromSource(targetRouteKey, sourceSlugUrl, args = {}) {
   const targetKey = String(targetRouteKey || '').trim().toLowerCase();
   const sourceKey = String(sourceSlugUrl || '').trim();
@@ -595,6 +621,7 @@ module.exports = {
   discoverOrphans,
   discoverOrphanBySlug,
   discoverOrphanFromSource,
+  discoverOrphanFromMedia,
   mergeOrphanPayloads,
   main
 };
