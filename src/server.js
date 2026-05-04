@@ -1197,6 +1197,43 @@ app.get('/health', async (_req, res) => {
   });
 });
 
+app.delete('/internal/orphans/:slug', async (req, res) => {
+  if (!isInternalRequestAuthorized(req)) {
+    return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  }
+
+  const targetKey = String(req.params.slug || '').trim().toLowerCase();
+  if (!targetKey) {
+    return res.status(400).json({ ok: false, error: 'slug is required' });
+  }
+
+  try {
+    const state = await refreshOrphanIndex();
+    if (!state.rawPayload) {
+      return res.status(404).json({ ok: false, error: 'No orphan index' });
+    }
+
+    const before = Array.isArray(state.rawPayload.items) ? state.rawPayload.items.length : 0;
+    const filtered = (state.rawPayload.items || []).filter((item) => {
+      const s = String(item.slug_url || '').toLowerCase();
+      return s !== targetKey;
+    });
+
+    if (filtered.length === before) {
+      return res.status(404).json({ ok: false, error: 'Orphan not found in index' });
+    }
+
+    const updated = { ...state.rawPayload, items: filtered, orphanCount: filtered.length };
+    await saveOrphanIndexPayload(updated);
+    orphanState.checkedAt = 0;
+    await refreshOrphanIndex(true);
+
+    return res.json({ ok: true, removed: targetKey, orphanCount: filtered.length });
+  } catch (error) {
+    return res.status(500).json({ ok: false, error: error?.message || String(error) });
+  }
+});
+
 app.post('/internal/orphans/add', async (req, res) => {
   if (!isInternalRequestAuthorized(req)) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' });
