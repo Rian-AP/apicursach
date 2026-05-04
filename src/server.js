@@ -1496,12 +1496,27 @@ app.get('/anime/:slug', async (req, res) => {
             try {
               let discovered = null;
 
-              if (minimalMedia) {
+              if (sourceSlug && minimalMedia) {
                 const timeout = new Promise((_, reject) =>
                   setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
                 );
                 discovered = await Promise.race([
-                  discoverOrphanFromMedia(minimalMedia, sourceSlug || req.params.slug),
+                  discoverOrphanFromSource(req.params.slug, sourceSlug, { api: upstream }),
+                  timeout
+                ]).catch(() => null);
+
+                if (!discovered) {
+                  discovered = await Promise.race([
+                    discoverOrphanFromMedia(minimalMedia, sourceSlug),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), DISCOVERY_TIMEOUT_MS))
+                  ]).catch(() => null);
+                }
+              } else if (minimalMedia) {
+                const timeout = new Promise((_, reject) =>
+                  setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
+                );
+                discovered = await Promise.race([
+                  discoverOrphanFromMedia(minimalMedia, req.params.slug),
                   timeout
                 ]).catch(() => null);
               }
