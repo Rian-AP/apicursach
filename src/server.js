@@ -1495,11 +1495,12 @@ app.get('/anime/:slug', async (req, res) => {
               }
 
               if (discovered) {
-                const existing = await refreshOrphanIndex();
-                const merged = mergeOrphanPayloads(discovered, existing.rawPayload);
-                await saveOrphanIndexPayload(merged);
-                orphanState.checkedAt = 0;
-                await refreshOrphanIndex(true);
+                refreshOrphanIndex().then((existing) => {
+                  const merged = mergeOrphanPayloads(discovered, existing.rawPayload);
+                  return saveOrphanIndexPayload(merged).then(() => {
+                    orphanState.checkedAt = 0;
+                  });
+                }).catch(() => {});
               }
 
               return discovered;
@@ -1513,22 +1514,17 @@ app.get('/anime/:slug', async (req, res) => {
 
         const pending = pendingDiscoveries.get(slugKey);
         const result = pending ? await pending.catch(() => null) : null;
+        const discoveredItem = result?.items?.[0] || null;
 
-        if (result) {
-          const freshState = await refreshOrphanIndex();
-          const freshItem = getRestoredAnimeItem(freshState, req.params.slug);
-          if (freshItem) {
-            return res.status(200).json(buildRestoredAnimePayload(freshItem));
-          }
+        if (discoveredItem) {
+          return res.status(200).json(buildRestoredAnimePayload(discoveredItem));
         }
 
         return res.status(404).json({
           ok: false,
           error: 'Not found',
-          discovering: Boolean(sourceSlug && !result),
-          message: sourceSlug && !result
-            ? 'Not found in source relations'
-            : 'Anime not found'
+          discovering: false,
+          message: 'Anime not found'
         });
       }
 
