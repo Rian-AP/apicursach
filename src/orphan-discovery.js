@@ -110,7 +110,9 @@ async function fetchAnimeCard(api, slugUrl, cache) {
     return cache.get(slugUrl);
   }
 
-  const request = api.get(`/anime/${encodeURIComponent(slugUrl)}`);
+  const request = api.get(`/anime/${encodeURIComponent(slugUrl)}`, {
+    params: { 'fields[]': 'background' }
+  });
   cache.set(slugUrl, request);
   return request;
 }
@@ -426,9 +428,13 @@ async function discoverOrphans(args = {}) {
         continue;
       }
 
+      const enrichedMedia = animeResponse.status === 200 && animeResponse.data?.data
+        ? { ...media, ...animeResponse.data.data }
+        : media;
+
       orphanMap.set(
         media.slug_url,
-        buildRestoredCard(media, episodes, orphanRelations, [sourceInfo])
+        buildRestoredCard(enrichedMedia, episodes, orphanRelations, [sourceInfo])
       );
     }
   });
@@ -485,7 +491,10 @@ async function discoverOrphanBySlug(targetRouteKey, args = {}) {
       }
 
       const orphanRelations = await fetchAnimeRelations(api, media.slug_url, relationsCache);
-      const item = buildRestoredCard(media, episodes, orphanRelations, [{
+      const enrichedMedia = animeResponse.status === 200 && animeResponse.data?.data
+        ? { ...media, ...animeResponse.data.data }
+        : media;
+      const item = buildRestoredCard(enrichedMedia, episodes, orphanRelations, [{
         source_slug_url: sourceSlugUrl,
         relation_type: relation?.related_type?.label || null
       }]);
