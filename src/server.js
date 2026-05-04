@@ -56,6 +56,8 @@ const BROWSER_USER_AGENT = [
 const playerResolveCache = new Map();
 const runtimeDiscoveryCache = new Map();
 const topViewsCache = new Map();
+const animeDetailsCache = new Map();
+const ANIME_DETAILS_CACHE_TTL_MS = Number(process.env.ANIME_DETAILS_CACHE_TTL_MS || 5 * 60 * 1000);
 const orphanState = {
   checkedAt: 0,
   items: [],
@@ -1371,6 +1373,12 @@ app.get('/anime/:slug/similar', async (req, res) => {
 
 app.get('/anime/:slug', async (req, res) => {
   try {
+    const cacheKey = String(req.params.slug);
+    const cached = animeDetailsCache.get(cacheKey);
+    if (cached && cached.expiresAt > Date.now()) {
+      return res.status(200).json(cached.data);
+    }
+
     const [upstreamResponse, relationsResponse] = await Promise.all([
       upstream.get(`/anime/${encodeURIComponent(req.params.slug)}`, {
         params: { 'fields[]': 'background' },
@@ -1378,7 +1386,7 @@ app.get('/anime/:slug', async (req, res) => {
       }),
       upstream.get(`/anime/${encodeURIComponent(req.params.slug)}/relations`, {
         validateStatus: () => true
-      })
+      }).catch(() => null)
     ]);
 
     if (
@@ -1386,7 +1394,7 @@ app.get('/anime/:slug', async (req, res) => {
       typeof upstreamResponse.data === 'object' &&
       upstreamResponse.data?.data
     ) {
-      const relations = Array.isArray(relationsResponse?.data?.data)
+      const relations = relationsResponse?.status === 200 && Array.isArray(relationsResponse?.data?.data)
         ? relationsResponse.data.data
         : [];
 
@@ -1396,6 +1404,11 @@ app.get('/anime/:slug', async (req, res) => {
           media: entry?.media || null
         }));
       }
+
+      animeDetailsCache.set(cacheKey, {
+        data: upstreamResponse.data,
+        expiresAt: Date.now() + ANIME_DETAILS_CACHE_TTL_MS
+      });
     }
 
     if (isUpstreamAnimeNotFoundResponse(upstreamResponse)) {
