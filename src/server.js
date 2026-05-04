@@ -1473,14 +1473,10 @@ app.get('/anime/:slug', async (req, res) => {
         const slugKey = String(req.params.slug).toLowerCase();
         const sourceSlug = String(req.query.sourceSlug || '').trim();
 
-        const cachedSource = sourceSlug ? animeDetailsCache.get(String(sourceSlug).toLowerCase()) : null;
-        const mediaFromCache = cachedSource
-          ? (cachedSource.data?.data?.related_anime || [])
-              .map((r) => r?.media)
-              .find((m) => m && [
-                String(m.slug_url || '').toLowerCase(),
-                String(m.slug || '').toLowerCase()
-              ].includes(slugKey))
+        const slugIdMatch = req.params.slug.match(/^(\d+)--/);
+        const slugNumericId = slugIdMatch ? Number(slugIdMatch[1]) : null;
+        const minimalMedia = slugNumericId
+          ? { id: slugNumericId, slug_url: req.params.slug, slug: req.params.slug, model: 'anime', site: 5 }
           : null;
 
         if (!pendingDiscoveries.has(slugKey)) {
@@ -1488,20 +1484,12 @@ app.get('/anime/:slug', async (req, res) => {
             try {
               let discovered = null;
 
-              if (mediaFromCache) {
+              if (minimalMedia) {
                 const timeout = new Promise((_, reject) =>
                   setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
                 );
                 discovered = await Promise.race([
-                  discoverOrphanFromMedia(mediaFromCache, sourceSlug),
-                  timeout
-                ]).catch(() => null);
-              } else if (sourceSlug) {
-                const timeout = new Promise((_, reject) =>
-                  setTimeout(() => reject(new Error('discovery timeout')), DISCOVERY_TIMEOUT_MS)
-                );
-                discovered = await Promise.race([
-                  discoverOrphanFromSource(req.params.slug, sourceSlug),
+                  discoverOrphanFromMedia(minimalMedia, sourceSlug || req.params.slug),
                   timeout
                 ]).catch(() => null);
               }
