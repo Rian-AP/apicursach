@@ -1381,7 +1381,7 @@ app.get('/anime/:slug', async (req, res) => {
 
     const [upstreamResponse, relationsResponse] = await Promise.all([
       upstream.get(`/anime/${encodeURIComponent(req.params.slug)}`, {
-        params: { 'fields[]': ['background', 'summary'] },
+        params: { 'fields[]': ['background', 'summary', 'genres'] },
         validateStatus: () => true
       }),
       upstream.get(`/anime/${encodeURIComponent(req.params.slug)}/relations`, {
