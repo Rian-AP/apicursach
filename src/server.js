@@ -1420,14 +1420,14 @@ app.get('/img', async (req, res) => {
 
   try {
     const imageResponse = await axios.get(url, {
-      responseType: 'stream',
+      responseType: 'arraybuffer',
       timeout: REQUEST_TIMEOUT_MS,
       headers: { 'User-Agent': BROWSER_USER_AGENT }
     });
 
     res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
     res.setHeader('Cache-Control', 'public, max-age=86400');
-    imageResponse.data.pipe(res);
+    res.send(Buffer.from(imageResponse.data));
   } catch (error) {
     return sendUpstreamError(res, error);
   }
