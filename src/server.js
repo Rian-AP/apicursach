@@ -972,11 +972,7 @@ function selectPlayersToResolve(players, options = {}) {
   }
 
   if (resolveMode === 'all') {
-    return new Set(
-      players
-        .filter((player) => isResolvablePlayer(player))
-        .map((player) => player.id)
-    );
+    return new Set(players.filter((player) => isResolvablePlayer(player)).map((player) => player.id));
   }
 
   const defaultPlayer = players.find((player) => isResolvablePlayer(player)) || players[0];
