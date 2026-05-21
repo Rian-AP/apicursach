@@ -1629,18 +1629,118 @@ app.get('/img', async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Invalid or missing url param' });
   }
 
-  try {
-    const imageResponse = await axios.get(url, {
+  const shikimoriId = String(req.query.shiki || '').trim() || null;
+  const anilistId = String(req.query.al || '').trim() || null;
+
+  const fetchImage = async (targetUrl) => axios.get(targetUrl, {
+    responseType: 'arraybuffer',
+    timeout: REQUEST_TIMEOUT_MS,
+    headers: {
+      'User-Agent': BROWSER_USER_AGENT,
+      'Referer': 'https://hentaicdn.org/',
+      'Origin': 'https://hentaicdn.org',
+      'Accept': 'image/webp,image/jpeg,image/*,*/*;q=0.8',
+      'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
+    }
+  });
+
+  const tryAnilistFallback = async () => {
+    const id = anilistId || shikimoriId;
+    if (!id) return null;
+    try {
+      const query = `query($id:Int){Media(id:$id,type:ANIME){coverImage{extraLarge large}}}`;
+      const gqlRes = await axios.post('https://graphql.anilist.co', { query, variables: { id: Number(id) } }, {
+        timeout: REQUEST_TIMEOUT_MS,
+        headers: { 'Content-Type': 'application/json', 'User-Agent': BROWSER_USER_AGENT }
+      });
+      const coverUrl = gqlRes.data?.data?.Media?.coverImage?.extraLarge || gqlRes.data?.data?.Media?.coverImage?.large;
+      if (!coverUrl) return null;
+      return axios.get(coverUrl, {
+        responseType: 'arraybuffer',
+        timeout: REQUEST_TIMEOUT_MS,
+        headers: { 'User-Agent': BROWSER_USER_AGENT, 'Referer': 'https://anilist.co/' }
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  const tryShikimoriPosterFallback = async () => {
+    if (!shikimoriId) return null;
+    try {
+      const htmlRes = await axios.get(`https://shikimori.io/animes/${shikimoriId}`, {
+        timeout: REQUEST_TIMEOUT_MS,
+        headers: { 'User-Agent': BROWSER_USER_AGENT }
+      });
+      const html = String(htmlRes.data || '');
+      const ogMatch = html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i);
+      const posterUrl = ogMatch ? ogMatch[1] : null;
+      if (!posterUrl) return null;
+      return axios.get(posterUrl, {
+        responseType: 'arraybuffer',
+        timeout: REQUEST_TIMEOUT_MS,
+        headers: { 'User-Agent': BROWSER_USER_AGENT }
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  const tryShikimoriFallback = async () => {
+    if (!shikimoriId) return null;
+    const shikiApiUrl = `https://shikimori.one/api/animes/${encodeURIComponent(shikimoriId)}`;
+    const shikiMeta = await axios.get(shikiApiUrl, {
+      timeout: REQUEST_TIMEOUT_MS,
+      headers: { 'User-Agent': BROWSER_USER_AGENT }
+    });
+    const imagePath = shikiMeta.data?.image?.original;
+    if (!imagePath) return null;
+    const shikiImgUrl = `https://shikimori.one${imagePath.split('?')[0]}`;
+    return axios.get(shikiImgUrl, {
       responseType: 'arraybuffer',
       timeout: REQUEST_TIMEOUT_MS,
-      headers: {
-        'User-Agent': BROWSER_USER_AGENT,
-        'Referer': 'https://animelib.org/',
-        'Origin': 'https://animelib.org',
-        'Accept': 'image/webp,image/jpeg,image/*,*/*;q=0.8',
-        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
-      }
+      headers: { 'User-Agent': BROWSER_USER_AGENT }
     });
+  };
+
+  try {
+    let imageResponse = null;
+
+    try {
+      imageResponse = await fetchImage(url);
+    } catch {
+      imageResponse = null;
+    }
+
+    const needsFallback = !imageResponse || imageResponse.status === 404 || imageResponse.status === 403;
+
+    if (needsFallback && (anilistId || shikimoriId)) {
+      try {
+        imageResponse = await tryAnilistFallback();
+      } catch {
+        imageResponse = null;
+      }
+    }
+
+    if ((!imageResponse || imageResponse.status !== 200) && shikimoriId) {
+      try {
+        imageResponse = await tryShikimoriPosterFallback();
+      } catch {
+        imageResponse = null;
+      }
+    }
+
+    if ((!imageResponse || imageResponse.status !== 200) && shikimoriId) {
+      try {
+        imageResponse = await tryShikimoriFallback();
+      } catch {
+        imageResponse = null;
+      }
+    }
+
+    if (!imageResponse || imageResponse.status !== 200) {
+      return res.status(404).json({ ok: false, error: 'Image not available' });
+    }
 
     res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
     res.setHeader('Cache-Control', 'public, max-age=86400');
