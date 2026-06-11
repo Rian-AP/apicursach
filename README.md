@@ -2,12 +2,6 @@
 
 Прямой proxy backend к `https://hapi.hentaicdn.org/api`.
 
-## Что изменено
-
-- Прямые маршруты: backend принимает те же пути, что и upstream API.
-- Никаких обязательных префиксов `/api`.
-- Swagger UI в корне: `GET /`
-- OpenAPI JSON: `GET /openapi.json`
 
 ## Установка
 
@@ -24,56 +18,6 @@ npm start
 ```
 
 По умолчанию сервер поднимается на `http://localhost:4000`.
-
-## Деплой на Vercel
-
-Проект совместим с zero-config деплоем Express на Vercel: основной entrypoint находится в `src/server.js`, экспортирует `app` и при локальном запуске отдельно поднимает `listen`.
-
-В репе уже есть `vercel.json`, который:
-
-- фиксирует framework как `express`
-- принудительно включает `data/**/*.json` в bundle функции
-- задаёт регион исполнения `arn1`
-- поднимает лимит функции до `300s`
-- запускает cron rebuild раз в день через `/internal/orphans/rebuild`
-
-Минимальный сценарий:
-
-```bash
-npm i -g vercel
-vercel
-```
-
-Для локальной проверки именно Vercel-окружения:
-
-```bash
-vercel dev
-```
-
-## Переменные окружения
-
-Скопируй `.env.example` в `.env`.
-
-- `PORT` — порт сервера
-- `API_BASE_URL` — upstream API
-- `SITE_ID` — `Site-Id` для upstream (для AnimeLib: `5`)
-- `REQUEST_TIMEOUT_MS` — timeout в мс
-- `PLAYER_RESOLVE_TTL_MS` — TTL кэша для уже зарезолвленных video links
-- `ORPHAN_INDEX_PATH` — путь до локального JSON с восстановленными orphan-карточками
-- `ORPHAN_INDEX_REFRESH_MS` — как часто сервер перепроверяет orphan-индекс на изменение
-- `ORPHAN_SEARCH_MAX_RESULTS` — сколько orphan-результатов максимум подмешивать в поиск
-- `ORPHAN_INDEX_STORAGE` — `auto`, `blob` или `file`
-- `ORPHAN_INDEX_BLOB_PATH` — путь JSON-файла внутри Vercel Blob
-- `ORPHAN_INDEX_BLOB_ACCESS` — `private` или `public` для Blob
-- `ORPHAN_SYNC_LOCAL_COPY` — писать ли локальную копию индекса вместе с Blob
-- `ORPHAN_RUNTIME_DISCOVERY_ENABLED` — включать ли runtime-поиск неизвестного orphan по slug
-- `ORPHAN_RUNTIME_DISCOVERY_MAX_PAGES` — сколько страниц каталога сканировать при runtime-discovery
-- `ORPHAN_REBUILD_MAX_PAGES` — сколько страниц каталога обходит один rebuild-запуск
-- `ORPHAN_REBUILD_CONCURRENCY` — concurrency для rebuild
-- `ORPHAN_REBUILD_SOURCE_SLUGS` — CSV список source-тайтлов для точечного rebuild вместо обхода каталога
-- `ORPHAN_ADMIN_TOKEN` — bearer token для manual internal endpoints
-- `CRON_SECRET` — bearer token, который Vercel Cron шлёт в internal rebuild endpoint
-- `BLOB_READ_WRITE_TOKEN` — token для чтения/записи orphan-индекса в Vercel Blob
 
 ## Восстановление потерянных карточек
 
@@ -152,15 +96,6 @@ curl -X POST "http://localhost:4000/internal/orphans/rebuild" \
 curl -X POST "http://localhost:4000/internal/orphans/rebuild?replace=true&max_pages=20" \
   -H "Authorization: Bearer $ORPHAN_ADMIN_TOKEN"
 ```
-
-Нюанс по Vercel Cron:
-
-- cron работает только на production deployment
-- на Hobby cron можно запускать только раз в день
-- один cron-запуск не должен пытаться сканировать весь каталог на Hobby
-- поэтому по умолчанию rebuild ограничен `ORPHAN_REBUILD_MAX_PAGES=5`
-- для полного rebuild лучше либо manual запускать частями, либо делать оффлайн через CLI и потом заливать индекс в Blob
-
 В JSON попадают:
 
 - `card.data` — восстановленная карточка тайтла
